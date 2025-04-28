@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body {
+  font-family: var(--font-poppins);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* helper class for Inter font */
+.font-inter {
+  font-family: var(--font-inter), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+
+@theme {
+  --breakpoint-3xl: 120rem;
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+  --color-avocado-400: oklch(0.92 0.19 114.08);
+  --color-avocado-500: oklch(0.84 0.18 117.33);
+  --color-avocado-600: oklch(0.53 0.12 118.34);
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  /* ... */
+
+  /* Custom Colors */
+  --color-mainBlack: #000000;
+  --color-mainGray: #F5F5F5;
+  --color-mainWhite: #FFFFFF;
+  --color-borderGray: #8790A8;
+  --color-mainOrange: #DB4444;
+}
+
+
+@media (min-width: 320px) {
+  .default-margin {
+    /* margin: 0 16px 0 16px; */
+    margin-left:16px ;
+    margin-right: 16px;
+  }
+
+  .default-flex {
+    flex-direction: column;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (min-width: 768px) {
+  .default-margin {
+    /* margin: 0 20px 0 20px; */
+    margin-left:20px ;
+    margin-right: 20px;
+  }
+}
+
+@media (min-width: 1152px) {
+  .default-margin {
+    /* margin: 0 32px 0 32px; */
+    margin-left:32px ;
+    margin-right: 32px;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+
+  .web-nav {
+    display: flex;
+  }
+}
+
+@media (min-width: 1440px) {
+  /* .mobile-nav {
+    display: none;
+  }
+  .nav-toggle {
+    display: none;
+  }
+  .web-nav {
+    display: flex;
+  } */
+}
+
+@media (min-width: 1920px) {
+  .default-margin {
+    /* margin: 0 220px 0 220px; */
+    margin-left:220px ;
+    margin-right: 220px;
+  }
 }
