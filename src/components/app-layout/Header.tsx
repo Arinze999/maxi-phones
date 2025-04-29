@@ -27,7 +27,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-myWhite fixed w-full top-[3rem] z-10 border-b-borderGray/30 border-b pb-3 md:pb-0">
+    <header className="bg-mainWhite fixed w-full top-[3rem] z-10 border-b-borderGray/30 border-b pb-3 md:pb-0">
       <div className="default-margin md:min-h-[5rem] flex justify-between md:items-center relative">
         <CompanyLogo
           close={() => {
