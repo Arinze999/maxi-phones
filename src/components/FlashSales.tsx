@@ -25,10 +25,10 @@ const FlashSales = () => {
   }, []);
 
   const formatTimeLeft = (ms: number) => {
-    let seconds = Math.floor((ms / 1000) % 60);
-    let minutes = Math.floor((ms / (1000 * 60)) % 60);
-    let hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-    let days = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const seconds = Math.floor((ms / 1000) % 60);
+    const minutes = Math.floor((ms / (1000 * 60)) % 60);
+    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
 
     return [
       { label: 'Days', value: days.toString().padStart(2, '0') },
