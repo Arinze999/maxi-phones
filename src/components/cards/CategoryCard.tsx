@@ -1,5 +1,4 @@
 import React from 'react';
-import PhoneIcon from '../icons/PhoneIcon';
 
 interface CardProps {
   icon: React.ReactNode;
