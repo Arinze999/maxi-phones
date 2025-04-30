@@ -1,13 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PrimaryButton from './PrimaryButton';
 import ProductCard from './cards/ProductCard';
 import { products } from '@/db/products';
 
 const Explore = () => {
-
-
   return (
     <div className="py-10 flex flex-col gap-3 mt-10">
       <h3 className="text-mainOrange font-[600]">
@@ -37,7 +35,7 @@ const Explore = () => {
           </>
         ))}
       </div>
-      <div className='flex justify-center items-center mt-10'>
+      <div className="flex justify-center items-center mt-10">
         <PrimaryButton
           text="View All Products"
           onClick={() => {
