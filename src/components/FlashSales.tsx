@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PrimaryButton from './PrimaryButton';
 import ProductCard from './cards/ProductCard';
+import { flashsalesData } from '@/db/flashsales';
 
 const FlashSales = () => {
   const [timeLeft, setTimeLeft] = useState(getInitialTime());
@@ -53,7 +54,7 @@ const FlashSales = () => {
   };
 
   return (
-    <div className="py-10 flex flex-col gap-3">
+    <div className="py-10 flex flex-col gap-3 mt-10">
       <h3 className="text-mainOrange font-[600]">
         <span className="bg-mainOrange py-2 px-1 rounded mr-3">s</span>Todays
       </h3>
@@ -96,23 +97,24 @@ const FlashSales = () => {
         {/* Scrollable ProductCards */}
         <div
           ref={scrollRef}
-          className="flex flex-col md:flex-row gap-3 items-center justify-start w-full md:overflow-x-auto scrollbar-hide"
+          className="flex flex-col md:flex-row gap-5 items-center justify-start w-full md:overflow-x-auto scrollbar-hide mt-5"
         >
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard />
-          <hr className="bg-gray-200 w-full block md:hidden" />
-          <ProductCard /> <hr className="bg-gray-200 w-full block md:hidden" />
+          {flashsalesData.map((item, index) => (
+            <>
+              <ProductCard
+                key={index}
+                src={item.src}
+                title={item.title}
+                price={item.price}
+                slashedPrice={item.slashedPrice}
+                discountPercent={item.discountPercent}
+                rating={item.rating}
+              />
+              {index !== flashsalesData.length - 1 && (
+                <hr className="bg-gray-200 w-full block md:hidden" />
+              )}
+            </>
+          ))}
         </div>
 
         <PrimaryButton

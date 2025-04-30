@@ -4,7 +4,23 @@ import EyeIcon from '../icons/EyeIcon';
 import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
 
-const ProductCard = () => {
+interface ProductCardProps {
+  src: string;
+  title: string;
+  price: string;
+  slashedPrice: string;
+  discountPercent?: string;
+  rating: number;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  src,
+  title,
+  price,
+  slashedPrice,
+  discountPercent,
+  rating,
+}) => {
   const [showCart, setShowCart] = useState(false);
 
   return (
@@ -21,11 +37,13 @@ const ProductCard = () => {
         <span className="bg-white p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-15 flex justify-center items-center">
           <EyeIcon color="white" />
         </span>
-        <button className="absolute left-3 top-3 text-mainWhite px-2 py-1 text-[12px] bg-mainOrange rounded">
-          -40%
-        </button>
+        {discountPercent && (
+          <button className="absolute left-3 top-3 text-mainWhite px-2 py-1 text-[12px] bg-mainOrange rounded">
+            {discountPercent}
+          </button>
+        )}
         <Image
-          src={'/imgs/pad.png'}
+          src={src}
           alt="logo"
           width={172}
           height={152}
@@ -40,17 +58,23 @@ const ProductCard = () => {
         </div>
       </div>
       <div className="py-1 flex justify-center gap-2 flex-col">
-        <p className="text-[15px] font-[600]">HAVIT HV-G92 Gamepad</p>
-        <p className="text-[15px] text-mainOrange">
-          $120 <span className="text-gray-500">$160</span>
+        <p className="text-[15px] font-[600]">{title}</p>
+        <p className="text-[14px] text-mainOrange">
+          ₦{price}{' '}
+          <span className="text-gray-500 line-through ml-3">
+            {' '}
+            ₦{slashedPrice}
+          </span>
         </p>
-        <p className="flex gap-1">
-          <StarIcon width={20} color="gold" />
-          <StarIcon width={20} color="gold" />
-          <StarIcon width={20} color="gold" />
-          <StarIcon width={20} color="gold" />
-          <StarIcon width={20} color="#8790A8" />
-          <span className="text-[12px] text-[#8790A8]">(88)</span>
+        <p className="flex gap-1 items-center">
+          {[...Array(5)].map((_, i) => (
+            <StarIcon
+              key={i}
+              width={20}
+              color={i < rating ? 'gold' : '#8790A8'}
+            />
+          ))}
+          <span className="text-[12px] text-[#8790A8]">{rating}</span>
         </p>
       </div>
     </div>

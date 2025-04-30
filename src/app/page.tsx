@@ -1,6 +1,9 @@
+import BestSellers from '@/components/BestSellers';
+import Category from '@/components/Category';
 import FlashSales from '@/components/FlashSales';
 import Hero from '@/components/Hero';
 import SideNav from '@/components/navbar/SideNav';
+import Poster from '@/components/Poster';
 
 export default function Home() {
   return (
@@ -10,6 +13,9 @@ export default function Home() {
         <Hero />
       </div>
       <FlashSales />
+      <Category />
+      <BestSellers />
+      <Poster />
     </div>
   );
 }
