@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Poppins, Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/app-layout/Header';
+import ScrollTop from '@/components/ScrollTop';
 
 const poppins = Poppins({
   weight: ['400'],
@@ -37,6 +38,7 @@ export default function RootLayout({
         </aside>
         <Header />
         {children}
+        <ScrollTop />
       </body>
     </html>
   );

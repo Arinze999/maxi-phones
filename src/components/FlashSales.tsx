@@ -79,7 +79,7 @@ const FlashSales = () => {
 
       <div className="flex py-5 flex-col gap-5 justify-center items-center relative w-full">
         {/* Scroll buttons */}
-        <div className="absolute right-3 top-[-3rem] gap-2 z-10 hidden md:flex">
+        <div className="absolute right-3 top-[-3rem] gap-2 z-5 hidden md:flex">
           <button
             onClick={scrollLeft}
             className="bg-mainGray text-mainBlack h-[2rem] w-[2rem] rounded-full hover:text-mainOrange"

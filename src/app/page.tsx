@@ -4,6 +4,7 @@ import Explore from '@/components/Explore';
 import FlashSales from '@/components/FlashSales';
 import Hero from '@/components/Hero';
 import SideNav from '@/components/navbar/SideNav';
+import Summary from '@/components/navbar/Summary';
 import NewArrival from '@/components/NewArrival';
 import Poster from '@/components/Poster';
 
@@ -20,6 +21,7 @@ export default function Home() {
       <Poster />
       <Explore />
       <NewArrival />
+      <Summary />
     </div>
   );
 }
