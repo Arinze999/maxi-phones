@@ -7,6 +7,7 @@ import SideNav from '@/components/navbar/SideNav';
 import Summary from '@/components/navbar/Summary';
 import NewArrival from '@/components/NewArrival';
 import Poster from '@/components/Poster';
+import ScrollTop from '@/components/ScrollTop';
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <Explore />
       <NewArrival />
       <Summary />
+      <ScrollTop />
     </div>
   );
 }

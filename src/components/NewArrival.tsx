@@ -63,18 +63,18 @@ const NewArrival = () => {
           {/* Bottom Two Containers */}
           <div className="grid grid-cols-2 gap-4">
             <div className="group relative bg-purple-200 overflow-hidden">
-              <div className="flex items-center justify-center h-full translate-y-3">
+              <div className="flex items-center justify-center h-full translate-y-7 md:translate-y-3">
                 <Image
                   src={'/imgs/iPhone12-2.png'}
                   height={600}
                   width={600}
                   alt="ps52"
-                  className="w-full h-auto object-contain scale-[0.7] md:scale-[0.9]"
+                  className="w-full  h-auto object-contain scale-[0.7] md:scale-[0.9]"
                 />
               </div>
               <div className="absolute top-0 p-5 text-mainBlack">
-                <p className="text-[20px]">IPhone 12</p>
-                <p className="text-[14px] max-w-[250px]">With classy colors</p>
+                <p className="md:text-[20px]">IPhone 12</p>
+                <p className="text-[12px] md:text-[14px] max-w-[250px]">With classy colors</p>
               </div>
               <div className="absolute inset-0 bg-black/60 text-white flex items-center justify-center -translate-x-full group-hover:translate-x-0 transition-transform duration-300">
                 <p className="text-mainGreen underline cursor-pointer">
@@ -90,12 +90,12 @@ const NewArrival = () => {
                   height={600}
                   width={600}
                   alt="ps52"
-                  className="w-full h-auto object-contain scale-[0.7] md:scale-[0.9]"
+                  className="w-full min-w-[300px] h-auto object-contain scale-[0.7] md:scale-[0.9]"
                 />
               </div>
               <div className="absolute bottom-0 right-0 p-5 flex flex-col items-end">
-                <p className="text-[20px] mb-5">Samsung Flip</p>
-                <p className="text-[14px] max-w-[250px] text-right">
+                <p className="md:text-[20px] md:mb-5">Samsung Flip</p>
+                <p className="text-[12px] md:text-[14px] max-w-[250px] text-right">
                   Enjoy Elegance!
                 </p>
               </div>
