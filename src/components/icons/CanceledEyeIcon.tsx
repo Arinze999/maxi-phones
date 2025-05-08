@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EyeIcon: React.FC = () => {
+const CanceledEyeIcon: React.FC = () => {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
@@ -9,9 +9,15 @@ const EyeIcon: React.FC = () => {
       />
       <circle cx="12" cy="12" r="5" fill="white" />
       <circle cx="12" cy="12" r="3" fill="#1B143F" />
+      <path
+        d="M1 1L23 23"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 };
 
-export default EyeIcon;
-
+export default CanceledEyeIcon;

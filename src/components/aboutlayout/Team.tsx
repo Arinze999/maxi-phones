@@ -21,7 +21,7 @@ const data = [
 
 const Team = () => {
   return (
-    <div className="py-10 flex flex-col flex-wrap md:flex-row justify-center items-center gap-5">
+    <div className="py-20 flex flex-col flex-wrap md:flex-row justify-center items-center gap-5">
       {data.map((item, index) => (
         <TeamCard key={index} {...item} />
       ))}

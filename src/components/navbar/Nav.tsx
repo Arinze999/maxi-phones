@@ -6,7 +6,7 @@ const navItems = [
   { title: 'Home', link: '/' },
   { title: 'Contact', link: '/contact' },
   { title: 'About', link: '/about' },
-  { title: 'Sign up', link: '/sign Up' },
+  { title: 'Sign in', link: '/signin' },
 ];
 
 const Nav = () => {

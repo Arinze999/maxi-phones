@@ -3,7 +3,7 @@ import React from 'react';
 
 const Summary = () => {
   return (
-    <div className="py-10">
+    <div className="py-20">
       <ul className="flex flex-col md:flex-row justify-around gap-12 md:gap-0 items-center">
         <li className="flex flex-col justify-center gap-3 items-center">
           <Image

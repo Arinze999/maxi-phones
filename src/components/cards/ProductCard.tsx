@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import HeartIcon from '../icons/HeartIcon';
-import EyeIcon from '../icons/EyeIcon';
+import EyeIcon from '../icons/EyeIcon2';
 import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
 
