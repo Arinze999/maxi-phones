@@ -15,7 +15,6 @@ import {
 import ValidatingFormSubmitButton from '@/components/Button/ValidatingFormSubmitButton';
 import Link from 'next/link';
 import { Google } from '@/components/icons/Google';
-import PrimaryButton from '@/components/PrimaryButton';
 
 const SignupPage = () => {
   const handleSubmit = (values: SignupDataType, actions: any) => {
