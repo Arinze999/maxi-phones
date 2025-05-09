@@ -15,13 +15,12 @@ import {
 import ValidatingFormSubmitButton from '@/components/Button/ValidatingFormSubmitButton';
 import Link from 'next/link';
 import { Google } from '@/components/icons/Google';
+import { createClient } from '../../../utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import { useSignup } from '@/hooks/auth/useSignup';
 
 const SignupPage = () => {
-  const handleSubmit = (values: SignupDataType, actions: any) => {
-    console.log('contact form', values);
-    alert(values.identifier);
-    actions.resetForm({ values: SignupInitialValues });
-  };
+  const { signupUser, loading } = useSignup();
 
   const handleGoogle = () => {
     alert('google here');
@@ -45,7 +44,7 @@ const SignupPage = () => {
         <FormComponent
           schema={SignupSchema}
           initialValues={SignupInitialValues}
-          onSubmit={handleSubmit}
+          onSubmit={signupUser}
         >
           <AuthTextInputField name="name" label="" placeholder="Name" />
           <AuthTextInputField
@@ -59,7 +58,10 @@ const SignupPage = () => {
             placeholder="Password"
           />
           <div className="w-full flex justify-between items-center">
-            <ValidatingFormSubmitButton className="w-full py-4">
+            <ValidatingFormSubmitButton
+              className="w-full py-4"
+              loading={loading}
+            >
               Create Account
             </ValidatingFormSubmitButton>
           </div>

@@ -1,26 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
+import Link from 'next/link';
 import { FormComponent } from '@/components/form/FormComponent';
 import {
   AuthTextInputField,
   AuthPasswordInputField,
 } from '@/components/form/FormField';
 import {
-  LoginDataType,
   LoginInitialValues,
   LoginSchema,
 } from '@/models/auth/SignIn.model';
 import ValidatingFormSubmitButton from '@/components/Button/ValidatingFormSubmitButton';
-import Link from 'next/link';
+import { useSignin } from '@/hooks/auth/useSignin';
 
 const LoginPage = () => {
-  const handleSubmit = (values: LoginDataType, actions: any) => {
-    console.log('contact form', values);
-    alert(values.identifier);
-    actions.resetForm({ values: LoginInitialValues });
-  };
+  const { signinUser, loading } = useSignin();
 
   return (
     <div className="lg:min-h-[50rem] min-h-[35rem] mt-[12rem] md:mt-[10rem] mb-[3rem] default-margin flex flex-col justify-center items-center lg:flex-row gap-10">
@@ -40,7 +35,7 @@ const LoginPage = () => {
         <FormComponent
           schema={LoginSchema}
           initialValues={LoginInitialValues}
-          onSubmit={handleSubmit}
+          onSubmit={signinUser}
         >
           <AuthTextInputField
             name="identifier"
@@ -52,12 +47,17 @@ const LoginPage = () => {
             label=""
             placeholder="Password"
           />
+
           <div className="w-full flex justify-between items-center">
-            <ValidatingFormSubmitButton className="py-4 px-10">
+            <ValidatingFormSubmitButton
+              className="py-4 px-10"
+              loading={loading}
+            >
               Login
             </ValidatingFormSubmitButton>
-            <p className="text-mainOrange">Forget Password?</p>
+            <p className="text-mainOrange cursor-pointer">Forget Password?</p>
           </div>
+
           <p className="text-gray-500">
             Don't have an account?
             <Link href={'/signup'} className="underline text-mainOrange ml-5">

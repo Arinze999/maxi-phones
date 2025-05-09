@@ -3,6 +3,7 @@ import { Poppins, Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/app-layout/Header';
 import Footer from '@/components/app-layout/Footer';
+import ReduxProvider from '@/redux/ReduxProvider';
 
 const poppins = Poppins({
   weight: ['400'],
@@ -29,16 +30,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${inter.variable} antialiased`}>
-        <aside className="fixed top-0 left-0 right-0 text-[12px] md:text-[14px] z-10 flex items-center justify-center gap-3 bg-black p-4 text-mainWhite h-[3rem]">
-          <p>
-            {' '}
-            Promo Sale For All Phones and Free Express Delivery - OFF 50%!{' '}
-          </p>
-          <span className="underline"> ShopNow</span>
-        </aside>
-        <Header />
-        {children}
-        <Footer />
+        <ReduxProvider>
+          <aside className="fixed top-0 left-0 right-0 text-[12px] md:text-[14px] z-10 flex items-center justify-center gap-3 bg-black p-4 text-mainWhite h-[3rem]">
+            <p>
+              {' '}
+              Promo Sale For All Phones and Free Express Delivery - OFF 50%!{' '}
+            </p>
+            <span className="underline"> ShopNow</span>
+          </aside>
+          <Header />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );
