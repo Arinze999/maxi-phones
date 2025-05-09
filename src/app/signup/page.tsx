@@ -9,14 +9,11 @@ import {
 } from '@/components/form/FormField';
 import {
   SignupSchema,
-  SignupDataType,
   SignupInitialValues,
 } from '@/models/auth/SignUp.model';
 import ValidatingFormSubmitButton from '@/components/Button/ValidatingFormSubmitButton';
 import Link from 'next/link';
 import { Google } from '@/components/icons/Google';
-import { createClient } from '../../../utils/supabase/client';
-import { useRouter } from 'next/navigation';
 import { useSignup } from '@/hooks/auth/useSignup';
 
 const SignupPage = () => {
