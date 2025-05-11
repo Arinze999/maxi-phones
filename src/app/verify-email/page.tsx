@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic';
 
 import React from 'react';
-import FadeLoader from 'react-spinners/FadeLoader';
+// import FadeLoader from 'react-spinners/FadeLoader';
 // import { useVerifyEmail } from '@/hooks/auth/useVerifyEmail';
 
 const VerifyEmailPage = () => {
