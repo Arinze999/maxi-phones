@@ -21,7 +21,7 @@ export function useVerifyEmail() {
     async function handleVerify() {
       const token_hash = params.get('token_hash');
       const type = params.get('type') as EmailOtpType | null;
-      const nextUrl = params.get('next') ?? '/';
+      // const nextUrl = params.get('next') ?? '/';
 
       if (!token_hash || !type) {
         setLoading(false);

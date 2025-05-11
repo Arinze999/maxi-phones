@@ -3,7 +3,7 @@ import { UserFill } from './icons/UserFill';
 import { ShoppingBag } from './icons/ShoppingBag';
 import { CancelCircle } from './icons/CancelCircle';
 import { Logout2Broken } from './icons/Logout2Broken';
-import { useAppSelector } from '@/redux/store';
+// import { useAppSelector } from '@/redux/store';
 
 const drop = [
   { text: 'Manage My Account', icon: <UserFill /> },
@@ -13,8 +13,8 @@ const drop = [
 ];
 
 const UserDropdown = () => {
-  const session = useAppSelector((state) => state.auth.session);
-  const user = session?.user;
+  // const session = useAppSelector((state) => state.auth.session);
+  // const user = session?.user;
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 

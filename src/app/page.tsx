@@ -12,7 +12,6 @@ import NewArrival from '@/components/NewArrival';
 import Poster from '@/components/Poster';
 import ScrollTop from '@/components/ScrollTop';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
-import { FadeLoader } from 'react-spinners';
 
 export default function Home() {
   const { loading } = useRefreshSession();
