@@ -5,6 +5,7 @@ import Category from '@/components/Category';
 import Explore from '@/components/Explore';
 import FlashSales from '@/components/FlashSales';
 import Hero from '@/components/Hero';
+import LoadingScreen from '@/components/LoadingScreen';
 import SideNav from '@/components/navbar/SideNav';
 import Summary from '@/components/navbar/Summary';
 import NewArrival from '@/components/NewArrival';
@@ -17,15 +18,7 @@ export default function Home() {
   const { loading } = useRefreshSession();
 
   if (loading) {
-    return (
-      <div className="min-h-screen w-full flex justify-center items-center">
-        <FadeLoader
-          loading={loading}
-          color="#db4444"
-          cssOverride={{ display: 'block', margin: '0 auto' }}
-        />
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

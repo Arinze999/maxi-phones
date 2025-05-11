@@ -1,9 +1,10 @@
 // hooks/useSignin.ts
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppDisPatch } from '@/redux/store'; // ← your typed dispatch hook
+import { useAppDisPatch } from '@/redux/store';
 import { authActions } from '@/redux/slices/authSlice';
 import { createClient } from '../../../utils/supabase/client';
+import Swal from 'sweetalert2';
 import type { LoginDataType } from '@/models/auth/SignIn.model';
 import { LoginInitialValues } from '@/models/auth/SignIn.model';
 
@@ -28,10 +29,28 @@ export function useSignin() {
         });
 
         if (error) {
+          await Swal.fire({
+            title: 'Sign-in Failed',
+            text: error.message,
+            icon: 'error',
+            confirmButtonText: 'Try Again',
+
+            confirmButtonColor: '#db4444',
+          });
           actions.setFieldError('identifier', error.message);
         } else if (data.session) {
           dispatch(authActions.setSession(data.session));
           localStorage.setItem('sessionData', JSON.stringify(data.session));
+
+          await Swal.fire({
+            title: 'Logged in!',
+            text: 'You have successfully signed in.',
+            icon: 'success',
+            confirmButtonText: 'Continue',
+
+            confirmButtonColor: '#db4444',
+          });
+
           router.refresh();
           router.push('/');
         }

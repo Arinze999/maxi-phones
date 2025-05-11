@@ -7,9 +7,10 @@ import { useEffect, useState } from 'react';
 // import Button from '../components/Button';
 import Nav from '@/components/navbar/Nav';
 import MobileNav from '@/components/navbar/MobileNav';
-import Image from 'next/image';
 import CompanyLogo from '@/components/CompanyLogo';
 import TopControls from '../navbar/TopControls';
+import { MenuToCloseTransition } from '../icons/MenuToCloseTransition';
+import { CloseToMenuTransition } from '../icons/CloseToMenuTransition';
 
 const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
@@ -38,23 +39,9 @@ const Header = () => {
         <div className="flex-col">
           <div className="md:hidden gap-2 flex justify-end py-2">
             {navOpen ? (
-              <Image
-                src={'/icons/close.png'}
-                alt="menu"
-                width={24}
-                height={24}
-                onClick={toggleNav}
-                className="cursor-pointer flex md:hidden"
-              />
+              <div onClick={toggleNav}><CloseToMenuTransition/></div>
             ) : (
-              <Image
-                src={'/icons/menu.png'}
-                alt="menu"
-                width={24}
-                height={24}
-                onClick={toggleNav}
-                className="cursor-pointer flex md:hidden"
-              />
+               <div onClick={toggleNav}><MenuToCloseTransition/></div>
             )}
           </div>
 

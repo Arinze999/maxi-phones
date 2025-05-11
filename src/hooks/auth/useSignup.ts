@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '../../../utils/supabase/client';
 import type { SignupDataType } from '@/models/auth/SignUp.model';
 import { SignupInitialValues } from '@/models/auth/SignUp.model';
+import Swal from 'sweetalert2';
 
 export function useSignup() {
   const [loading, setLoading] = useState(false);
@@ -24,9 +25,23 @@ export function useSignup() {
         });
 
         if (error) {
+          await Swal.fire({
+            title: 'Process Failed',
+            text: error.message,
+            icon: 'error',
+            confirmButtonText: 'Try Again',
+          });
           actions.setFieldError('identifier', error.message);
         } else {
-          alert('account created');
+          await Swal.fire({
+            title: 'Account Created',
+            text: 'Redirect to Sign in...?',
+            icon: 'success',
+            confirmButtonText: 'OK',
+
+            confirmButtonColor: '#db4444',
+          });
+          router.refresh();
           router.push('/signin');
         }
 
@@ -40,3 +55,8 @@ export function useSignup() {
 
   return { signupUser, loading };
 }
+
+// <h2>Confirm your signup</h2>
+
+// <p>Follow this link to confirm your user:</p>
+// <p><a href="{{ .ConfirmationURL }}">Confirm your mail</a></p>
