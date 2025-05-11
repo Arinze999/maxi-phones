@@ -38,7 +38,7 @@ const Header = () => {
         <Nav />
         <div className="flex-col">
           <div className="md:hidden gap-2 flex justify-end py-2">
-            {navOpen ? (
+            {!navOpen ? (
               <div onClick={toggleNav}><CloseToMenuTransition/></div>
             ) : (
                <div onClick={toggleNav}><MenuToCloseTransition/></div>
