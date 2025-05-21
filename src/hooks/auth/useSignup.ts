@@ -19,28 +19,52 @@ export function useSignup() {
           ? { email: identifier }
           : { phone: identifier };
 
-        const { error } = await supabase.auth.signUp({
-          ...creds,
-          password,
-        });
+        // 1) Sign up
+        const { data: signUpData, error: signUpError } =
+          await supabase.auth.signUp({
+            ...creds,
+            password,
+          });
 
-        if (error) {
+        if (signUpError) {
           await Swal.fire({
             title: 'Process Failed',
-            text: error.message,
+            text: signUpError.message,
             icon: 'error',
             confirmButtonText: 'Try Again',
           });
-          actions.setFieldError('identifier', error.message);
+          actions.setFieldError('identifier', signUpError.message);
         } else {
+          // 2) Grab the new user's ID
+          const userId = signUpData.user?.id;
+          if (!userId) throw new Error('Could not get new user ID');
+
+          // 3) Insert a blank profile row
+          const { error: profileError } = await supabase
+            .from('profiles')
+            .insert([
+              {
+                id: userId,
+                avatar_url: '', // placeholder for their profile image
+                cart_items: [], // start with an empty cart
+                wishlist: [], // start with an empty wishlist
+              },
+            ]);
+
+          if (profileError) {
+            console.error('Failed to create profile row:', profileError);
+            // you might choose to alert the user or retry here
+          }
+
+          // 4) Let the user know and redirect
           await Swal.fire({
             title: 'Account Created',
-            text: 'Redirect to Sign in...?',
+            text: 'Redirecting to Sign in…',
             icon: 'success',
             confirmButtonText: 'OK',
-
             confirmButtonColor: '#db4444',
           });
+
           router.refresh();
           router.push('/signin');
         }
@@ -55,8 +79,3 @@ export function useSignup() {
 
   return { signupUser, loading };
 }
-
-// <h2>Confirm your signup</h2>
-
-// <p>Follow this link to confirm your user:</p>
-// <p><a href="{{ .ConfirmationURL }}">Confirm your mail</a></p>
