@@ -1,11 +1,10 @@
 // src/components/CartInitializer.tsx
 'use client';
 
-import React from 'react';
 import { useGetCartItems } from '@/hooks/useGetCartItems';
 
 export default function CartInitializer() {
-  const { loading } = useGetCartItems();
+  const {} = useGetCartItems();
 
   // You can render a global spinner here if you like:
   // return loading ? <FullPageSpinner /> : null

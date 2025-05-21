@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 import UserDropdown from '../UserDropdown';
 import { useAppSelector } from '@/redux/store';
-import { CartOutline } from '../icons/CartOutline';
 import { HeartOutline } from '../icons/HeartOutline';
 import CartIndicator from '../CartIndicator';
 
