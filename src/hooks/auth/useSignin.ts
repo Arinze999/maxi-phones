@@ -7,11 +7,13 @@ import { createClient } from '../../../utils/supabase/client';
 import Swal from 'sweetalert2';
 import type { LoginDataType } from '@/models/auth/SignIn.model';
 import { LoginInitialValues } from '@/models/auth/SignIn.model';
+import { useClearCart } from '../useClearCart';
 
 export function useSignin() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useAppDisPatch();
+  const { clearCart } = useClearCart();
 
   const signinUser = useCallback(
     async (values: LoginDataType, actions: any) => {
@@ -39,6 +41,7 @@ export function useSignin() {
           });
           actions.setFieldError('identifier', error.message);
         } else if (data.session) {
+          clearCart();
           dispatch(authActions.setSession(data.session));
           localStorage.setItem('sessionData', JSON.stringify(data.session));
 

@@ -3,6 +3,7 @@ import HeartIcon from '../icons/HeartIcon';
 import EyeIcon from '../icons/EyeIcon2';
 import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
+import { useAddToCart } from '@/hooks/useAddToCart';
 
 interface ProductCardProps {
   src: string;
@@ -22,6 +23,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
   rating,
 }) => {
   const [showCart, setShowCart] = useState(false);
+
+  const { addToCart, loading } = useAddToCart(() => {
+    console.log('Cart updated!');
+  });
+
+  const onAddToCart = () => {
+    if (loading) return;
+    addToCart({
+      src,
+      title,
+      price,
+      slashedPrice,
+      discountPercent,
+      rating,
+    });
+  };
 
   return (
     <div
@@ -53,6 +70,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
           className={`absolute cursor-pointer bottom-0 left-0 right-0 bg-mainBlack text-mainWhite text-[12px] font-[600] py-2 flex justify-center items-center gap-2 transition-transform duration-300 ${
             showCart ? 'translate-y-0' : 'translate-y-full'
           }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart();
+          }}
         >
           Add To Cart
         </div>

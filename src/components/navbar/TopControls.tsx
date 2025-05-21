@@ -4,6 +4,7 @@ import UserDropdown from '../UserDropdown';
 import { useAppSelector } from '@/redux/store';
 import { CartOutline } from '../icons/CartOutline';
 import { HeartOutline } from '../icons/HeartOutline';
+import CartIndicator from '../CartIndicator';
 
 const TopControls = () => {
   const session = useAppSelector((state) => state.auth.session);
@@ -27,7 +28,7 @@ const TopControls = () => {
       </div>
       <div className="flex gap-5 justify-center items-center">
         <HeartOutline />
-        <CartOutline />
+        <CartIndicator />
         {user && <UserDropdown />}
       </div>
     </div>

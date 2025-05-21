@@ -12,6 +12,7 @@ import NewArrival from '@/components/NewArrival';
 import Poster from '@/components/Poster';
 import ScrollTop from '@/components/ScrollTop';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
+import CartInitializer from '@/components/CartInitializer';
 
 export default function Home() {
   const { loading } = useRefreshSession();
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <div className="mt-[12rem] md:mt-[10rem] default-margin">
+      <CartInitializer />
       <div className="flex">
         <SideNav />
         <Hero />
