@@ -4,6 +4,7 @@ import EyeIcon from '../icons/EyeIcon2';
 import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
 import { useAddToCart } from '@/hooks/useAddToCart';
+import Link from 'next/link';
 
 interface ProductCardProps {
   src: string;
@@ -12,6 +13,7 @@ interface ProductCardProps {
   slashedPrice: string;
   discountPercent?: string;
   rating: number;
+  hover?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -21,6 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   slashedPrice,
   discountPercent,
   rating,
+  hover,
 }) => {
   const [showCart, setShowCart] = useState(false);
 
@@ -42,18 +45,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div
-      className="w-[16rem] min-w-[16rem] h-[21rem]"
+      className={`w-[16rem] min-w-[16rem] h-[21rem] ${
+        hover &&
+        'p-2 transition duration-200 ease-in-out hover:translate-y-[-10px] hover:scale-[1.08] hover:shadow rounded-md'
+      }`}
       onMouseEnter={() => setShowCart(true)}
       onMouseLeave={() => setShowCart(false)}
       onClick={() => setShowCart(true)}
     >
       <div className="bg-mainGray h-[72%] relative flex justify-center items-center overflow-hidden rounded-md">
-        <span className="bg-white p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-3 flex justify-center items-center">
+        <span className="bg-white cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-3 flex justify-center items-center">
           <HeartIcon color="white" />
         </span>
-        <span className="bg-white p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-15 flex justify-center items-center">
-          <EyeIcon color="white" />
-        </span>
+        <Link href={`/products/${encodeURIComponent(title)}`}>
+          <span className="bg-white cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-15 flex justify-center items-center">
+            <EyeIcon color="white" />
+          </span>
+        </Link>
         {discountPercent && (
           <button className="absolute left-3 top-3 text-mainWhite px-2 py-1 text-[12px] bg-mainOrange rounded">
             {discountPercent}

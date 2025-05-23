@@ -2,6 +2,17 @@ export const flashsalesData = [
   {
     src: '/imgs/iPhone12promax.png',
     title: 'Apple IPhone 12 Pro Max',
+    description:
+      'Large-screen flagship with A14 Bionic chip, triple-lens camera array, and LiDAR scanner.',
+    deliveryPeriod: '2–4 days',
+    specs: [
+      '6.7" Super Retina XDR OLED',
+      'A14 Bionic 6-core CPU',
+      'Triple 12 MP cameras (wide, ultra-wide, telephoto)',
+      'LiDAR scanner for improved AR',
+      '5G / Wi-Fi 6 / Bluetooth 5.0',
+      'Up to 20h video playback',
+    ],
     slashedPrice: '700000',
     discountPercent: '-40%',
     price: '420000',
@@ -10,6 +21,17 @@ export const flashsalesData = [
   {
     src: '/imgs/keyboard.png',
     title: 'AK-900 Wired Keyboard',
+    description:
+      'Mechanical USB keyboard with clicky blue switches and per-key RGB lighting.',
+    deliveryPeriod: '1–2 days',
+    specs: [
+      'Outemu Blue mechanical switches',
+      'N-key rollover for anti-ghosting',
+      'Detachable braided USB-C cable',
+      'Per-key customizable RGB backlight',
+      'Aluminum top plate',
+      'Adjustable tilt legs',
+    ],
     slashedPrice: '12000',
     discountPercent: '-35%',
     price: '7800',
@@ -18,6 +40,17 @@ export const flashsalesData = [
   {
     src: '/imgs/mcbookair.png',
     title: 'Apple MacBook Air',
+    description:
+      'Ultra-thin laptop powered by Apple M1, with Retina display and all-day battery life.',
+    deliveryPeriod: '2–4 days',
+    specs: [
+      'Apple M1 chip with 8-core CPU/GPU',
+      '13.3" Retina display (2560×1600)',
+      '8 GB unified RAM',
+      '256 GB SSD storage',
+      'Magic Keyboard & Touch ID',
+      'Up to 18h battery life',
+    ],
     slashedPrice: '870000',
     discountPercent: '-30%',
     price: '609000',
@@ -26,6 +59,17 @@ export const flashsalesData = [
   {
     src: '/imgs/iPhone11.png',
     title: 'Apple IPhone 11',
+    description:
+      'Durable smartphone with A13 Bionic, dual-camera system, and long battery life.',
+    deliveryPeriod: '1–2 days',
+    specs: [
+      '6.1" Liquid Retina LCD',
+      'A13 Bionic chip',
+      'Dual 12 MP cameras (wide & ultra-wide)',
+      'Face ID & IP68 water resistance',
+      'Up to 17h video playback',
+      'Wireless charging',
+    ],
     slashedPrice: '500000',
     discountPercent: '-25%',
     price: '375000',
@@ -34,6 +78,16 @@ export const flashsalesData = [
   {
     src: '/imgs/pad.png',
     title: 'HAVIT HV-G92 Gamepad',
+    description:
+      'Ergonomic wired controller with dual vibration motors for PC and consoles.',
+    deliveryPeriod: '1–2 days',
+    specs: [
+      'USB-A connection (plug-and-play)',
+      'Dual vibration feedback',
+      '6-axis gyroscope support',
+      'Adjustable trigger sensitivity',
+      'Comfort-fit rubber grips',
+    ],
     slashedPrice: '14000',
     discountPercent: '-40%',
     price: '8400',
@@ -42,6 +96,17 @@ export const flashsalesData = [
   {
     src: '/imgs/redmi.png',
     title: 'Redmi Note 13',
+    description:
+      'Feature-packed mid-range phone with AMOLED display and quad-camera setup.',
+    deliveryPeriod: '2–3 days',
+    specs: [
+      '6.67" AMOLED, 120 Hz',
+      'MediaTek Dimensity 6080 processor',
+      '6 GB RAM, 128 GB storage',
+      '50 MP main + 8 MP ultra-wide + 2 MP macro + 2 MP depth',
+      '5000 mAh battery with 33 W fast charge',
+      'Side-mounted fingerprint sensor',
+    ],
     slashedPrice: '400000',
     discountPercent: '-35%',
     price: '260000',
@@ -50,6 +115,17 @@ export const flashsalesData = [
   {
     src: '/imgs/tv.png',
     title: 'IPS LCD Gaming Monitor',
+    description:
+      '24" gaming monitor with IPS panel, 144 Hz refresh rate, and 1 ms response time.',
+    deliveryPeriod: '3–5 days',
+    specs: [
+      '24" 1080p IPS display',
+      '144 Hz refresh rate',
+      '1 ms MPRT response time',
+      'AMD FreeSync support',
+      'Height-adjustable stand',
+      'VESA mount compatible',
+    ],
     slashedPrice: '150000',
     discountPercent: '-30%',
     price: '105000',
@@ -58,6 +134,17 @@ export const flashsalesData = [
   {
     src: '/imgs/iPhonexr.png',
     title: 'Apple IPhone XR',
+    description:
+      'Colorful iPhone with Liquid Retina display, A12 Bionic chip, and reliable performance.',
+    deliveryPeriod: '1–2 days',
+    specs: [
+      '6.1" Liquid Retina LCD',
+      'A12 Bionic chip',
+      'Single 12 MP wide camera',
+      'Face ID & IP67 water resistance',
+      'Up to 15h video playback',
+      'Multiple vibrant color options',
+    ],
     slashedPrice: '350000',
     discountPercent: '-25%',
     price: '262500',

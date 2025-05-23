@@ -13,7 +13,8 @@ interface UseClearCartResult {
 
 /**
  * Hook to clear the entire cart via Redux and persist on Supabase for signed-in users.
- * Also clears sessionStorage for guest users.
+ * Also clears sessionStorage for guest users, with a confirmation prompt.
+ * @param onSuccess Optional callback to run after successful clear.
  */
 export function useClearCart(onSuccess?: () => void): UseClearCartResult {
   const dispatch = useAppDisPatch();
@@ -24,11 +25,29 @@ export function useClearCart(onSuccess?: () => void): UseClearCartResult {
   const clearCart = useCallback(async () => {
     setLoading(true);
     try {
+      // 1) Ask for confirmation
+      const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'This will remove all items from your cart.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, clear it',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#d33',
+        reverseButtons: true,
+      });
+
+      if (!result.isConfirmed) {
+        // User cancelled
+        setLoading(false);
+        return;
+      }
+
+      // 2) Proceed to clear
       if (isUser) {
         const supabase = await createClient();
         const userId = session!.user.id;
 
-        // Clear the cart_items array in Supabase
         const { error } = await supabase
           .from('profiles')
           .update({ cart_items: [], updated_at: new Date() })
@@ -43,7 +62,7 @@ export function useClearCart(onSuccess?: () => void): UseClearCartResult {
         sessionStorage.removeItem('cartItems');
       }
 
-      // Redux update
+      // 3) Redux update
       dispatch(cartActions.clearCart());
 
       await Swal.fire({

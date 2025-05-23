@@ -4,6 +4,7 @@ import React from 'react';
 import PrimaryButton from './PrimaryButton';
 import ProductCard from './cards/ProductCard';
 import { products } from '@/db/products';
+import Link from 'next/link';
 
 const Explore = () => {
   return (
@@ -19,7 +20,7 @@ const Explore = () => {
       </div>
 
       <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
-        {products.map((item, index) => (
+        {products.slice(0,4).map((item, index) => (
           <>
             <ProductCard
               key={index}
@@ -36,12 +37,9 @@ const Explore = () => {
         ))}
       </div>
       <div className="flex justify-center items-center mt-10">
-        <PrimaryButton
-          text="View All Products"
-          onClick={() => {
-            alert('clicked');
-          }}
-        />
+        <Link href="/products">
+          <PrimaryButton text="View All Products" onClick={() => {}} />
+        </Link>
       </div>
     </div>
   );

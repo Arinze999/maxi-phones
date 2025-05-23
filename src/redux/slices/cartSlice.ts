@@ -10,6 +10,9 @@ export interface Product {
   discountPercent?: string;
   price: string;
   rating: number;
+  specs: string[];
+  deliveryPeriod: string;
+  description:string;
 }
 
 /**
@@ -35,9 +38,12 @@ const cartSlice = createSlice({
      * Add a product to cart or update quantity
      * payload: { product, quantity }
      */
-    addToCart(state, action: PayloadAction<{ product: Product; quantity?: number }>) {
+    addToCart(
+      state,
+      action: PayloadAction<{ product: Product; quantity?: number }>
+    ) {
       const { product, quantity = 1 } = action.payload;
-      const existing = state.items.find(item => item.title === product.title);
+      const existing = state.items.find((item) => item.title === product.title);
       if (existing) {
         existing.quantity += quantity;
       } else {
@@ -50,7 +56,7 @@ const cartSlice = createSlice({
      * payload: title string
      */
     removeFromCart(state, action: PayloadAction<string>) {
-      state.items = state.items.filter(item => item.title !== action.payload);
+      state.items = state.items.filter((item) => item.title !== action.payload);
     },
 
     /**

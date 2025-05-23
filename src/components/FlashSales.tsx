@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PrimaryButton from './PrimaryButton';
 import ProductCard from './cards/ProductCard';
 import { flashsalesData } from '@/db/flashsales';
+import Link from 'next/link';
 
 const FlashSales = () => {
   const [timeLeft, setTimeLeft] = useState(getInitialTime());
@@ -117,12 +118,9 @@ const FlashSales = () => {
           ))}
         </div>
 
-        <PrimaryButton
-          text="View All Products"
-          onClick={() => {
-            alert('clicked');
-          }}
-        />
+        <Link href="/products">
+          <PrimaryButton text="View All Products" onClick={() => {}} />
+        </Link>
       </div>
     </div>
   );

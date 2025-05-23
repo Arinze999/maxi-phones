@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
 import { BaselineCancel } from '@/components/icons/BaselineCancel';
 import Link from 'next/link';
 import { ChevronLeft12 } from '@/components/icons/ChevronLeft';
+import { useClearCart } from '@/hooks/useClearCart';
+import { TrashBinOutline } from '@/components/icons/TrashIcon';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDisPatch();
@@ -27,6 +29,8 @@ const CartPage: React.FC = () => {
   const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
 
   const { removeFromCart, loading: removing } = useRemoveFromCart();
+
+  const { loading: clearingCart, clearCart } = useClearCart();
 
   useEffect(() => {
     onRefreshSession();
@@ -106,10 +110,10 @@ const CartPage: React.FC = () => {
         <table className="w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-100">
-              <th className="md:p-4 py-4 text-left">Product</th>
-              <th className="md:p-4 py-4 text-left">Price</th>
-              <th className="md:p-4 py-4 text-left">Quantity</th>
-              <th className="md:p-4 py-4 text-left">Subtotal</th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Product</th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Price</th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Quantity</th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Subtotal</th>
             </tr>
           </thead>
           <tbody>
@@ -131,7 +135,7 @@ const CartPage: React.FC = () => {
                     />
                     {hovered === item.title && (
                       <button
-                        className="absolute md:-top-2 -top-5 md:-right-2 bg-white p-1 rounded-full text-red-400 shadow hover:bg-gray-100 cursor-pointer"
+                        className="absolute md:-top-2 -top-5 md:-left-4 bg-white p-1 rounded-full text-red-400 shadow hover:bg-gray-100 cursor-pointer"
                         disabled={removing}
                         onClick={() => removeFromCart(item.title)}
                       >
@@ -143,7 +147,7 @@ const CartPage: React.FC = () => {
                     {item.title}
                   </span>
                 </td>
-                <td className="md:p-4 py-4">#{parseInt(item.price)}</td>
+                <td className="md:p-4 py-4">₦{parseInt(item.price)}</td>
                 <td className="md:p-4 py-4">
                   <input
                     type="number"
@@ -159,7 +163,7 @@ const CartPage: React.FC = () => {
                   />
                 </td>
                 <td className="md:p-4 py-4">
-                  #{parseInt(item.price) * item.quantity}
+                  ₦{parseInt(item.price) * item.quantity}
                 </td>
               </tr>
             ))}
@@ -167,17 +171,27 @@ const CartPage: React.FC = () => {
         </table>
       )}
       {localItems.length > 0 && (
-        <div className="mt-6 text-right">
+        <div className="mt-6 text-right flex flex-col md:flex-row justify-end gap-10 items-center">
+          <button
+            className="flex items-center  cursor-pointer gap-5 text-red-500 hover:text-red-700 border-red-500 border-2 rounded px-4 py-2 transition duration-200 ease-in-out hover:translate-y-[-5px]"
+            onClick={clearCart}
+            disabled={clearingCart}
+          >
+            <TrashBinOutline /> <span>Clear Cart</span>
+          </button>
           <PrimaryButton
             text="Save Changes"
             onClick={handleUpdateCart}
-            className="cursor-pointer disabled:color-gray-400"
+            className="cursor-pointer disabled:color-gray-400 "
             disabled={removing}
           />
         </div>
       )}
-      <div className="mt-6">
-        <Link href={'/'} className="text-mainOrange underline">
+      <div className="mt-6 flex w-fit">
+        <Link
+          href={'/'}
+          className="text-mainOrange underline transition-transform duration-200 ease-in-out hover:-translate-x-2"
+        >
           <ChevronLeft12 />
           Back to Shop
         </Link>
