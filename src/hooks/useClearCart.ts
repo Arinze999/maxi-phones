@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { useAppDisPatch, useAppSelector } from '@/redux/store';
 import { cartActions } from '@/redux/slices/cartSlice';
 import Swal from 'sweetalert2';
+import { createClient } from '../../utils/supabase/client';
 
 interface UseClearCartResult {
   clearCart: () => Promise<void>;
@@ -11,9 +12,8 @@ interface UseClearCartResult {
 }
 
 /**
- * Hook to clear the entire cart via Redux and handle sessionStorage for guest users.
- * Simulates an API call for signed-in users.
- * @param onSuccess Optional callback to run after successful clear.
+ * Hook to clear the entire cart via Redux and persist on Supabase for signed-in users.
+ * Also clears sessionStorage for guest users.
  */
 export function useClearCart(onSuccess?: () => void): UseClearCartResult {
   const dispatch = useAppDisPatch();
@@ -25,15 +25,25 @@ export function useClearCart(onSuccess?: () => void): UseClearCartResult {
     setLoading(true);
     try {
       if (isUser) {
-        // Simulate server sync via axios
-        // await axios.delete('/api/cart');
-        alert('Simulating axios API call to clear cart for user');
+        const supabase = await createClient();
+        const userId = session!.user.id;
+
+        // Clear the cart_items array in Supabase
+        const { error } = await supabase
+          .from('profiles')
+          .update({ cart_items: [], updated_at: new Date() })
+          .eq('id', userId);
+
+        if (error) {
+          console.error('Failed to clear cart on Supabase:', error);
+          throw error;
+        }
       } else {
-        // Remove from sessionStorage for guest
+        // Guest user: just remove from sessionStorage
         sessionStorage.removeItem('cartItems');
       }
 
-      // Dispatch Redux clear action
+      // Redux update
       dispatch(cartActions.clearCart());
 
       await Swal.fire({
@@ -56,7 +66,7 @@ export function useClearCart(onSuccess?: () => void): UseClearCartResult {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, isUser, onSuccess]);
+  }, [dispatch, isUser, session, onSuccess]);
 
   return { clearCart, loading };
 }

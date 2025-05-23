@@ -75,7 +75,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onAddToCart();
           }}
         >
-          Add To Cart
+          {loading ? 'Adding...' : 'Add To Cart'}
         </div>
       </div>
       <div className="py-1 flex justify-center gap-2 flex-col">

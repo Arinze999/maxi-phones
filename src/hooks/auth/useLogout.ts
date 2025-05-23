@@ -43,6 +43,7 @@ export function useLogout() {
       await supabase.auth.signOut();
       // 3. Clear state
       dispatch(authActions.clearSession());
+      dispatch({ type: 'LOGOUT' });
       localStorage.removeItem('sessionData');
       // 4. Redirect
       router.push('/signin');

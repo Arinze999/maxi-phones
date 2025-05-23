@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { useAppDisPatch, useAppSelector } from '@/redux/store';
 import { cartActions } from '@/redux/slices/cartSlice';
 import Swal from 'sweetalert2';
+import { createClient } from '../../utils/supabase/client';
 
 interface UseRemoveFromCartResult {
   removeFromCart: (title: string) => Promise<void>;
@@ -11,11 +12,12 @@ interface UseRemoveFromCartResult {
 }
 
 /**
- * Hook to remove items from the cart via Redux and handle sessionStorage for guest users.
- * Simulates an API call for signed-in users.
- * @param onSuccess Optional callback to run after successful removal.
+ * Hook to remove items from the cart via Redux and persist on Supabase for signed-in users.
+ * Also updates sessionStorage for guest users.
  */
-export function useRemoveFromCart(onSuccess?: () => void): UseRemoveFromCartResult {
+export function useRemoveFromCart(
+  onSuccess?: () => void
+): UseRemoveFromCartResult {
   const dispatch = useAppDisPatch();
   const session = useAppSelector((state) => state.auth.session);
   const isUser = Boolean(session);
@@ -26,18 +28,53 @@ export function useRemoveFromCart(onSuccess?: () => void): UseRemoveFromCartResu
       setLoading(true);
       try {
         if (isUser) {
-          // Simulate server sync via axios
-          // await axios.delete(`/api/cart/${encodeURIComponent(title)}`);
-          alert('Simulating axios API call to remove item for user');
+          const supabase = await createClient();
+          const userId = session!.user.id;
+
+          // 1) Fetch current cart_items
+          const { data: profile, error: fetchError } = await supabase
+            .from('profiles')
+            .select('cart_items')
+            .eq('id', userId)
+            .single();
+
+          if (fetchError) {
+            console.error('Failed to fetch cart for removal:', fetchError);
+            throw fetchError;
+          }
+
+          // 2) Filter out the item by title
+          const existing: Array<{
+            title: string;
+            quantity: number;
+            [key: string]: any;
+          }> = Array.isArray(profile?.cart_items) ? profile.cart_items : [];
+          const updatedCart = existing.filter((item) => item.title !== title);
+
+          // 3) Persist the filtered array back to Supabase
+          const { error: updateError } = await supabase
+            .from('profiles')
+            .update({ cart_items: updatedCart, updated_at: new Date() })
+            .eq('id', userId);
+
+          if (updateError) {
+            console.error('Failed to update cart on Supabase:', updateError);
+            throw updateError;
+          }
         } else {
-          // Update sessionStorage for guest
+          // Guest user: update sessionStorage
           const raw = sessionStorage.getItem('cartItems') || '[]';
-          const items: Array<{ title: string; quantity: number }> = JSON.parse(raw);
-          const filtered = items.filter(item => item.title !== title);
+          let items: Array<{ title: string; quantity: number }> = [];
+          try {
+            items = JSON.parse(raw);
+          } catch {
+            console.warn('Invalid cart JSON in sessionStorage');
+          }
+          const filtered = items.filter((item) => item.title !== title);
           sessionStorage.setItem('cartItems', JSON.stringify(filtered));
         }
 
-        // Dispatch Redux action
+        // 4) Dispatch Redux action
         dispatch(cartActions.removeFromCart(title));
 
         await Swal.fire({
@@ -61,7 +98,7 @@ export function useRemoveFromCart(onSuccess?: () => void): UseRemoveFromCartResu
         setLoading(false);
       }
     },
-    [dispatch, isUser, onSuccess]
+    [dispatch, isUser, session, onSuccess]
   );
 
   return { removeFromCart, loading };

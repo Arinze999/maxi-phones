@@ -12,18 +12,31 @@ import NewArrival from '@/components/NewArrival';
 import Poster from '@/components/Poster';
 import ScrollTop from '@/components/ScrollTop';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
-import CartInitializer from '@/components/CartInitializer';
+import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
+import { useEffect } from 'react';
 
 export default function Home() {
-  const { loading } = useRefreshSession();
+  const { loading, onRefreshSession, userId } = useRefreshSession();
+  const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
 
-  if (loading) {
+  useEffect(() => {
+    onRefreshSession();
+  }, [onRefreshSession]);
+
+  useEffect(() => {
+   if (!loading) {
+     getLayoutLoadingData(userId ?? '');
+   }
+
+    // eslint-disable-next-line
+  }, [userId, loading]);
+
+  if (loading || layoutloading) {
     return <LoadingScreen />;
   }
 
   return (
     <div className="mt-[12rem] md:mt-[10rem] default-margin">
-      <CartInitializer />
       <div className="flex">
         <SideNav />
         <Hero />

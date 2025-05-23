@@ -16,7 +16,7 @@ const PrimaryButton: React.FC<ButtonProps> = ({
   return (
     <button
       className={`${className} bg-mainOrange text-mainWhite py-3 px-7 rounded text-[14px]`}
-      onChangeCapture={onClick}
+      onClick={onClick}
       disabled={disabled}
     >
       {text}
