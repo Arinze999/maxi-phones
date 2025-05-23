@@ -45,6 +45,10 @@ const ProductsPage = () => {
               price={item.price}
               slashedPrice={item.slashedPrice}
               rating={item.rating}
+              discountPercent={item.discountPercent}
+              specs={item.specs}
+              deliveryPeriod={item.deliveryPeriod}
+              description={item.description}
               hover
             />
             {index !== products.length - 1 && (
