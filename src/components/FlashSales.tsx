@@ -110,6 +110,9 @@ const FlashSales = () => {
                 slashedPrice={item.slashedPrice}
                 discountPercent={item.discountPercent}
                 rating={item.rating}
+                specs={item.specs}
+                deliveryPeriod={item.deliveryPeriod}
+                description={item.description}
               />
               {index !== flashsalesData.length - 1 && (
                 <hr className="bg-gray-200 w-full block md:hidden" />
