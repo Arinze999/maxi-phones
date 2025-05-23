@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import ProductCard from './cards/ProductCard';
@@ -24,7 +24,10 @@ const BestSellers = () => {
               title={item.title}
               price={item.price}
               slashedPrice={item.slashedPrice}
-         
+              description={item.description}
+              deliveryPeriod={item.deliveryPeriod}
+              discountPercent={''}
+              specs={item.specs}
               rating={item.rating}
             />
             {index !== bestsellers.length - 1 && (

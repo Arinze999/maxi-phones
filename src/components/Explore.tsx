@@ -20,7 +20,7 @@ const Explore = () => {
       </div>
 
       <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
-        {products.slice(0,4).map((item, index) => (
+        {products.slice(0, 4).map((item, index) => (
           <>
             <ProductCard
               key={index}
@@ -28,6 +28,10 @@ const Explore = () => {
               title={item.title}
               price={item.price}
               slashedPrice={item.slashedPrice}
+              description={item.description}
+              deliveryPeriod={item.deliveryPeriod}
+              discountPercent={item.discountPercent}
+              specs={item.specs}
               rating={item.rating}
             />
             {index !== products.length - 1 && (
