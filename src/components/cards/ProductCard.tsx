@@ -5,14 +5,15 @@ import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import Link from 'next/link';
+import { Product } from '@/redux/slices/cartSlice';
 
-interface ProductCardProps {
-  src: string;
-  title: string;
-  price: string;
-  slashedPrice: string;
-  discountPercent?: string;
-  rating: number;
+interface ProductCardProps extends Product {
+  // src: string;
+  // title: string;
+  // price: string;
+  // slashedPrice: string;
+  // discountPercent?: string;
+  // rating: number;
   hover?: boolean;
 }
 
@@ -23,6 +24,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   slashedPrice,
   discountPercent,
   rating,
+  description,
+  deliveryPeriod,
+  specs,
   hover,
 }) => {
   const [showCart, setShowCart] = useState(false);
@@ -40,7 +44,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       slashedPrice,
       discountPercent,
       rating,
-    });
+      description,
+      deliveryPeriod,
+      specs,
+    } as Product);
   };
 
   return (
