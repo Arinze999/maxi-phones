@@ -1,25 +1,25 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { products } from '@/db/products';
-import type { Product } from '@/redux/slices/cartSlice';
-import { useParams } from 'next/navigation';
 import StarIcon from '@/components/icons/StarIcon';
-import { useAppSelector } from '@/redux/store';
-import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
+import { products } from '@/db/products';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
-import LoadingScreen from '@/components/LoadingScreen';
+import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import { useAddToCart } from '@/hooks/useAddToCart';
+import { Product } from '@/redux/slices/cartSlice';
+import { useAppSelector } from '@/redux/store';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChevronLeft12 } from '@/components/icons/ChevronLeft';
+import { FadeLoader } from 'react-spinners';
 
-export default function ProductDetailPage() {
+const ProductDetailsModal = () => {
+  const router = useRouter();
+
   const session = useAppSelector((state) => state.auth.session);
   const userId = session?.user.id;
 
   const { loading, onRefreshSession } = useRefreshSession();
-  const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
-
-  const [load, setLoad] = useState(true);
+  const { getLayoutLoadingData } = useLayoutLoading();
 
   useEffect(() => {
     onRefreshSession();
@@ -37,34 +37,15 @@ export default function ProductDetailPage() {
     console.log('Cart updated!');
   });
 
-  async function allReady() {
-    // replace these with your real async checks
-    const checkAuth = () => Promise.resolve(loading);
-    const loadLayout = () => Promise.resolve(layoutloading);
-    const fetchUrl = () => Promise.resolve(rawTitle);
-
-    // run them in parallel
-    const results = await Promise.all([checkAuth(), loadLayout(), fetchUrl()]);
-
-    // only true if every result is truthy
-    return results.every(Boolean);
-  }
-
-  useEffect(() => {
-    allReady().then((ok) => {
-      setLoad(false);
-      console.log('All checks passed, ready to render:', ok);
-      if (!ok) {
-        console.error('Not all checks passed, something went wrong.');
-      }
-    });
-  }, []);
-
   // ✨ pull params via hook instead of via props
   const params = useParams<{ title: string }>();
   const rawTitle = params?.title;
-  if (load) {
-    return <LoadingScreen />;
+  if (!rawTitle) {
+    return (
+      <div className="flex flex-col items-center relative bg-mainWhite p-6 rounded-lg w-full max-w-[700px]">
+        <FadeLoader loading={true} color="#db4444" speedMultiplier={1.5} />
+      </div>
+    );
   }
 
   // decode the URL-encoded title
@@ -74,8 +55,15 @@ export default function ProductDetailPage() {
   const product = products.find((p: Product) => p.title === decodedTitle);
 
   return (
-    <div className="min-h-[50rem] mt-[12rem] md:mt-[10rem] default-margin mb-[3rem] flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-4">{product?.title}</h1>
+    <div className="flex flex-col items-center relative bg-mainWhite p-6 rounded-lg w-full max-w-[700px]">
+      <button
+        onClick={() => router.back()}
+        className="inline-flex items-center px-4 py-2 text-sm font-medium absolute top-4 left-0 text-mainOrange cursor-pointer transition-transform duration-200 ease-in-out hover:-translate-x-2"
+      >
+        <ChevronLeft12 />
+        Go Back
+      </button>
+      <h1 className="text-3xl font-bold mt-10 mb-4">{product?.title}</h1>
       {product?.src && (
         <div className="w-full max-w-md mb-6 flex justify-center items-center">
           <Image
@@ -134,4 +122,6 @@ export default function ProductDetailPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductDetailsModal;

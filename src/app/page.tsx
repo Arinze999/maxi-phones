@@ -13,25 +13,49 @@ import Poster from '@/components/Poster';
 import ScrollTop from '@/components/ScrollTop';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const { loading, onRefreshSession, userId } = useRefreshSession();
   const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
+
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     onRefreshSession();
   }, [onRefreshSession]);
 
   useEffect(() => {
-   if (!loading) {
-     getLayoutLoadingData(userId ?? '');
-   }
+    if (!loading) {
+      getLayoutLoadingData(userId ?? '');
+    }
 
     // eslint-disable-next-line
   }, [userId, loading]);
 
-  if (loading || layoutloading) {
+  async function allReady() {
+    // replace these with your real async checks
+    const checkAuth = () => Promise.resolve(loading);
+    const loadLayout = () => Promise.resolve(layoutloading);
+
+    // run them in parallel
+    const results = await Promise.all([checkAuth(), loadLayout()]);
+
+    // only true if every result is truthy
+    return results.every(Boolean);
+  }
+
+  useEffect(() => {
+    allReady().then((ok) => {
+      setLoad(false);
+      console.log('All checks passed, ready to render:', ok);
+      if (!ok) {
+        console.error('Not all checks passed, something went wrong.');
+      }
+    });
+  }, []);
+
+  if (load) {
     return <LoadingScreen />;
   }
 

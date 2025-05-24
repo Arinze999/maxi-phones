@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/app-layout/Header';
 import Footer from '@/components/app-layout/Footer';
 import ReduxProvider from '@/redux/ReduxProvider';
+import Modal from '@/components/modals/Modal';
 
 const poppins = Poppins({
   weight: ['400'],
@@ -24,8 +25,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -39,8 +42,10 @@ export default function RootLayout({
             <span className="underline"> ShopNow</span>
           </aside>
           <Header />
+          {modal}
           {children}
           <Footer />
+          <div id="modal-root" />
         </ReduxProvider>
       </body>
     </html>
