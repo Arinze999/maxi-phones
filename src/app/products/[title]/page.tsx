@@ -58,6 +58,7 @@ export default function ProductDetailPage() {
         console.error('Not all checks passed, something went wrong.');
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   // ✨ pull params via hook instead of via props

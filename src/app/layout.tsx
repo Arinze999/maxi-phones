@@ -4,7 +4,6 @@ import './globals.css';
 import Header from '@/components/app-layout/Header';
 import Footer from '@/components/app-layout/Footer';
 import ReduxProvider from '@/redux/ReduxProvider';
-import Modal from '@/components/modals/Modal';
 
 const poppins = Poppins({
   weight: ['400'],

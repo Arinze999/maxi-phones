@@ -53,6 +53,7 @@ export default function Home() {
         console.error('Not all checks passed, something went wrong.');
       }
     });
+    // eslint-disable-next-line
   }, []);
 
   if (load) {
