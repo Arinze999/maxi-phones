@@ -85,6 +85,7 @@ export default function ProductDetailPage() {
             width={200}
             height={200}
             className="object-cover rounded"
+            priority
           />
         </div>
       )}
