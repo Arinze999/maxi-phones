@@ -3,7 +3,6 @@ import { products } from '@/db/products';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import { useAddToCart } from '@/hooks/useAddToCart';
-import { Product } from '@/redux/slices/cartSlice';
 import { useAppSelector } from '@/redux/store';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
@@ -11,6 +10,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft12 } from '@/components/icons/ChevronLeft';
 import { FadeLoader } from 'react-spinners';
+import { Product } from '@/db/products';
 
 const ProductDetailsModal = () => {
   const router = useRouter();
@@ -108,6 +108,12 @@ const ProductDetailsModal = () => {
               ₦{product?.slashedPrice}
             </span>
           )}{' '}
+        </p>
+        <p className='text-[14px] text-gray-500 mb-2'>
+          categories:{' '}
+          {product?.categories.map((cat, index) => (
+            <span key={index}>{cat}, </span>
+          ))}
         </p>
         <p className="text-gray-500">
           Deivered between:{' '}

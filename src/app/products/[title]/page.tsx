@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { products } from '@/db/products';
-import type { Product } from '@/redux/slices/cartSlice';
+import { Product } from '@/db/products';
 import { useParams } from 'next/navigation';
 import StarIcon from '@/components/icons/StarIcon';
 import { useAppSelector } from '@/redux/store';
@@ -121,6 +121,12 @@ export default function ProductDetailPage() {
               ₦{product?.slashedPrice}
             </span>
           )}
+        </p>
+        <p className="text-[14px] text-gray-500 mb-2">
+          categories:{' '}
+          {product?.categories.map((cat, index) => (
+            <span key={index}>{cat}, </span>
+          ))}
         </p>
         <p className="text-gray-500">
           Deivered between:{' '}

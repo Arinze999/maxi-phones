@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useAppSelector, useAppDisPatch } from '@/redux/store';
-import { cartActions, CartItem, Product } from '@/redux/slices/cartSlice';
+import { cartActions, CartItem } from '@/redux/slices/cartSlice';
 import { useRemoveFromCart } from '@/hooks/useRemoveFromCart';
 import { createClient } from '../../../utils/supabase/client';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { ChevronLeft12 } from '@/components/icons/ChevronLeft';
 import { useClearCart } from '@/hooks/useClearCart';
 import { TrashBinOutline } from '@/components/icons/TrashIcon';
+import { Product } from '@/db/products';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDisPatch();
