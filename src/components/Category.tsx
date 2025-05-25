@@ -7,11 +7,31 @@ import HeadsetIcon from './icons/HeadsetIcon';
 import SmartwatchIcon from './icons/SmartwatchIcon';
 
 const categories = [
-  { icon: <PhoneIcon width={50} height={50} />, title: 'Phones' },
-  { icon: <LaptopIcon width={50} height={50} />, title: 'Computers' },
-  { icon: <GamepadIcon width={50} height={50} />, title: 'Gaming' },
-  { icon: <HeadsetIcon width={50} height={50} />, title: 'Entertainment' },
-  { icon: <SmartwatchIcon width={50} height={50} />, title: 'Smartwatch' },
+  {
+    icon: <PhoneIcon width={50} height={50} />,
+    title: 'Phones',
+    querry: 'phones',
+  },
+  {
+    icon: <LaptopIcon width={50} height={50} />,
+    title: 'Computers',
+    querry: 'computers',
+  },
+  {
+    icon: <GamepadIcon width={50} height={50} />,
+    title: 'Gaming',
+    querry: 'gaming',
+  },
+  {
+    icon: <HeadsetIcon width={50} height={50} />,
+    title: 'Entertainment',
+    querry: 'entertainment',
+  },
+  {
+    icon: <SmartwatchIcon width={50} height={50} />,
+    title: 'Smartwatch',
+    querry: 'smart watch',
+  },
 ];
 
 const Category = () => {
@@ -27,7 +47,12 @@ const Category = () => {
       </h2>
       <div className="flex flex-wrap md:flex-row gap-5 items-center justify-between md:justify-start w-full md:overflow-x-auto scrollbar-hide mt-5">
         {categories.map((item, index) => (
-          <CategoryCard key={index} title={item.title} icon={item.icon} />
+          <CategoryCard
+            key={index}
+            title={item.title}
+            icon={item.icon}
+            querry={item.querry}
+          />
         ))}
       </div>
     </div>

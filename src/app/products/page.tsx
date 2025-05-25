@@ -1,21 +1,37 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/cards/ProductCard';
 import LoadingScreen from '@/components/LoadingScreen';
-import { products } from '@/db/products';
+import { products, getProductsByCategory, Category } from '@/db/products';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import { useAppSelector } from '@/redux/store';
-import React, { useEffect, useState } from 'react';
+
+const allCategories: Category[] = [
+  'phones',
+  'computers',
+  'gaming',
+  'entertainment',
+  'smart watch',
+];
 
 const ProductsPage = () => {
-  const session = useAppSelector((state) => state.auth.session);
+  const router = useRouter();
+  const session = useAppSelector((s) => s.auth.session);
   const userId = session?.user.id;
 
   const { loading, onRefreshSession } = useRefreshSession();
   const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
-
   const [load, setLoad] = useState(true);
+
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category') as Category | null;
+
+  const displayItems = categoryParam
+    ? getProductsByCategory(categoryParam)
+    : products;
 
   useEffect(() => {
     onRefreshSession();
@@ -25,46 +41,72 @@ const ProductsPage = () => {
     if (!loading) {
       getLayoutLoadingData(userId ?? '');
     }
-
     // eslint-disable-next-line
   }, [userId, loading]);
 
   async function allReady() {
-    // replace these with your real async checks
     const checkAuth = () => Promise.resolve(loading);
     const loadLayout = () => Promise.resolve(layoutloading);
-
-    // run them in parallel
     const results = await Promise.all([checkAuth(), loadLayout()]);
-
-    // only true if every result is truthy
     return results.every(Boolean);
   }
 
   useEffect(() => {
     allReady().then((ok) => {
       setLoad(false);
-      console.log('All checks passed, ready to render:', ok);
-      if (!ok) {
-        console.error('Not all checks passed, something went wrong.');
-      }
+      if (!ok) console.error('Not all checks passed.');
     });
     // eslint-disable-next-line
   }, []);
 
-  if (load) {
-    return <LoadingScreen />;
-  }
+  if (load) return <LoadingScreen />;
 
   return (
     <div className="min-h-[50rem] mt-[12rem] md:mt-[10rem] default-margin mb-[3rem]">
-      <h3 className="text-xl font-semibold mb-4">Products</h3>
+      <h3 className="text-xl font-semibold mb-5">
+        {categoryParam ? `Category: ${categoryParam}` : 'All Products'}
+      </h3>
+
+      {/* ← category selector row ↓ */}
+      <div className="flex flex-wrap gap-3 mb-6">
+        {allCategories.map((cat) => {
+          const isActive = cat === categoryParam;
+          // prettify display name: "smart watch" → "Smart Watch"
+          const label = cat
+            .split(' ')
+            .map((w) => w[0].toUpperCase() + w.slice(1))
+            .join(' ');
+
+          return (
+            <button
+              key={cat}
+              onClick={() =>
+                router.push(
+                  cat === categoryParam
+                    ? '/products'
+                    : `/products?category=${encodeURIComponent(cat)}`
+                )
+              }
+              className={`
+                px-4 py-1 rounded-full text-[13px]
+                transition 
+                ${
+                  isActive
+                    ? 'bg-mainOrange text-mainWhite'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }
+              `}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
 
       <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
-        {products.map((item, index) => (
-          <>
+        {displayItems.map((item) => (
+          <React.Fragment key={item.title}>
             <ProductCard
-              key={index}
               src={item.src}
               title={item.title}
               price={item.price}
@@ -77,10 +119,8 @@ const ProductsPage = () => {
               categories={item.categories}
               hover
             />
-            {index !== products.length - 1 && (
-              <hr className="bg-gray-200 w-full block md:hidden" />
-            )}
-          </>
+            <hr className="bg-gray-200 w-full block md:hidden" />
+          </React.Fragment>
         ))}
       </div>
     </div>
