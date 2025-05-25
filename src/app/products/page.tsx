@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/cards/ProductCard';
 import LoadingScreen from '@/components/LoadingScreen';
@@ -62,32 +62,34 @@ const ProductsPage = () => {
   if (load) return <LoadingScreen />;
 
   return (
-    <div className="min-h-[50rem] mt-[12rem] md:mt-[10rem] default-margin mb-[3rem]">
-      <h3 className="text-xl font-semibold mb-5">
-        {categoryParam ? `Category: ${categoryParam}` : 'All Products'}
-      </h3>
+    <Suspense fallback={<LoadingScreen />}>
+      {' '}
+      <div className="min-h-[50rem] mt-[12rem] md:mt-[10rem] default-margin mb-[3rem]">
+        <h3 className="text-xl font-semibold mb-5">
+          {categoryParam ? `Category: ${categoryParam}` : 'All Products'}
+        </h3>
 
-      {/* ← category selector row ↓ */}
-      <div className="flex flex-wrap gap-3 mb-6">
-        {allCategories.map((cat) => {
-          const isActive = cat === categoryParam;
-          // prettify display name: "smart watch" → "Smart Watch"
-          const label = cat
-            .split(' ')
-            .map((w) => w[0].toUpperCase() + w.slice(1))
-            .join(' ');
+        {/* ← category selector row ↓ */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          {allCategories.map((cat) => {
+            const isActive = cat === categoryParam;
+            // prettify display name: "smart watch" → "Smart Watch"
+            const label = cat
+              .split(' ')
+              .map((w) => w[0].toUpperCase() + w.slice(1))
+              .join(' ');
 
-          return (
-            <button
-              key={cat}
-              onClick={() =>
-                router.push(
-                  cat === categoryParam
-                    ? '/products'
-                    : `/products?category=${encodeURIComponent(cat)}`
-                )
-              }
-              className={`
+            return (
+              <button
+                key={cat}
+                onClick={() =>
+                  router.push(
+                    cat === categoryParam
+                      ? '/products'
+                      : `/products?category=${encodeURIComponent(cat)}`
+                  )
+                }
+                className={`
                 px-4 py-1 rounded-full text-[13px]
                 transition 
                 ${
@@ -96,34 +98,35 @@ const ProductsPage = () => {
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }
               `}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
 
-      <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
-        {displayItems.map((item) => (
-          <React.Fragment key={item.title}>
-            <ProductCard
-              src={item.src}
-              title={item.title}
-              price={item.price}
-              slashedPrice={item.slashedPrice}
-              rating={item.rating}
-              discountPercent={item.discountPercent}
-              specs={item.specs}
-              deliveryPeriod={item.deliveryPeriod}
-              description={item.description}
-              categories={item.categories}
-              hover
-            />
-            <hr className="bg-gray-200 w-full block md:hidden" />
-          </React.Fragment>
-        ))}
+        <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
+          {displayItems.map((item) => (
+            <React.Fragment key={item.title}>
+              <ProductCard
+                src={item.src}
+                title={item.title}
+                price={item.price}
+                slashedPrice={item.slashedPrice}
+                rating={item.rating}
+                discountPercent={item.discountPercent}
+                specs={item.specs}
+                deliveryPeriod={item.deliveryPeriod}
+                description={item.description}
+                categories={item.categories}
+                hover
+              />
+              <hr className="bg-gray-200 w-full block md:hidden" />
+            </React.Fragment>
+          ))}
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 
