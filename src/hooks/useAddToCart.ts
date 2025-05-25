@@ -2,9 +2,10 @@
 
 import { useState, useCallback } from 'react';
 import { useAppDisPatch, useAppSelector } from '@/redux/store';
-import { cartActions, Product } from '@/redux/slices/cartSlice';
+import { cartActions } from '@/redux/slices/cartSlice';
 import Swal from 'sweetalert2';
 import { createClient } from '../../utils/supabase/client';
+import { Product } from '@/db/products';
 
 interface UseAddToCartResult {
   addToCart: (product: Product, quantity?: number) => Promise<void>;
