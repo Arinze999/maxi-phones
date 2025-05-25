@@ -3,12 +3,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PrimaryButton from './PrimaryButton';
 import ProductCard from './cards/ProductCard';
-import { flashsalesData } from '@/db/flashsales';
 import Link from 'next/link';
+import { getFlashSales, Product } from '@/db/products';
 
 const FlashSales = () => {
   const [timeLeft, setTimeLeft] = useState(getInitialTime());
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [flashsales, setFlashSales] = useState<Product[]>([]);
 
   function getInitialTime() {
     const now = new Date().getTime();
@@ -53,6 +54,24 @@ const FlashSales = () => {
       scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    // define a refresh function
+    const refresh = () => {
+      const latest = getFlashSales();
+      setFlashSales(latest);
+    };
+
+    // run once on mount
+    refresh();
+
+    // then every 60 seconds
+    const timer = setInterval(refresh, 60_000);
+
+    // cleanup on unmount
+    return () => clearInterval(timer);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="py-10 flex flex-col gap-3 mt-10">
@@ -100,7 +119,7 @@ const FlashSales = () => {
           ref={scrollRef}
           className="flex flex-col md:flex-row gap-5 items-center justify-start w-full md:overflow-x-auto scrollbar-hide mt-5"
         >
-          {flashsalesData.map((item, index) => (
+          {flashsales.map((item, index) => (
             <>
               <ProductCard
                 key={index}
@@ -113,8 +132,9 @@ const FlashSales = () => {
                 specs={item.specs}
                 deliveryPeriod={item.deliveryPeriod}
                 description={item.description}
+                categories={item.categories}
               />
-              {index !== flashsalesData.length - 1 && (
+              {index !== flashsales.length - 1 && (
                 <hr className="bg-gray-200 w-full block md:hidden" />
               )}
             </>

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import Link from 'next/link';
-import { Product } from '@/redux/slices/cartSlice';
+import { Product } from '@/db/products';
 
 interface ProductCardProps extends Product {
   // src: string;
@@ -28,6 +28,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   deliveryPeriod,
   specs,
   hover,
+  categories,
 }) => {
   const [showCart, setShowCart] = useState(false);
 
@@ -47,6 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       description,
       deliveryPeriod,
       specs,
+      categories,
     } as Product);
   };
 
@@ -70,7 +72,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
         </Link>
         {discountPercent && (
-          <button className="absolute left-3 top-3 text-mainWhite px-2 py-1 text-[12px] bg-mainOrange rounded">
+          <button className="absolute z-1 left-3 top-3 text-mainWhite px-2 py-1 text-[12px] bg-mainOrange rounded">
             {discountPercent}
           </button>
         )}
@@ -97,10 +99,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <p className="text-[15px] font-[600]">{title}</p>
         <p className="text-[14px] text-mainOrange">
           ₦{price}{' '}
-          <span className="text-gray-500 line-through ml-3">
-            {' '}
-            ₦{slashedPrice}
-          </span>
+          {slashedPrice && (
+            <span className="text-gray-500 line-through ml-3">
+              {' '}
+              ₦{slashedPrice}
+            </span>
+          )}
         </p>
         <p className="flex gap-1 items-center">
           {[...Array(5)].map((_, i) => (

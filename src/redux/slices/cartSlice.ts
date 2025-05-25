@@ -1,19 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Product } from '@/db/products';
 
 /**
  * Product shape matching flashsalesData
  */
-export interface Product {
-  src: string;
-  title: string;
-  slashedPrice: string;
-  discountPercent?: string;
-  price: string;
-  rating: number;
-  specs: string[];
-  deliveryPeriod: string;
-  description:string;
-}
+// export interface Product {
+//   src: string;
+//   title: string;
+//   slashedPrice?: string;
+//   discountPercent?: string;
+//   price: string;
+//   rating: number;
+//   specs: string[];
+//   deliveryPeriod: string;
+//   description:string;
+// }
 
 /**
  * CartItem extends Product with quantity

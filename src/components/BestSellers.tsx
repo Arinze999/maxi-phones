@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ProductCard from './cards/ProductCard';
-import { bestsellers } from '@/db/bestsellers';
+import { bestsellers } from '@/db/products'; // Assuming bestsellers is an array of products
 
 const BestSellers = () => {
   return (
@@ -29,6 +29,7 @@ const BestSellers = () => {
               discountPercent={''}
               specs={item.specs}
               rating={item.rating}
+              categories={item.categories}
             />
             {index !== bestsellers.length - 1 && (
               <hr className="bg-gray-200 w-full block md:hidden" />

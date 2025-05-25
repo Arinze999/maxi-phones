@@ -6,7 +6,7 @@ import { products } from '@/db/products';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import { useAppSelector } from '@/redux/store';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ProductsPage = () => {
   const session = useAppSelector((state) => state.auth.session);
@@ -14,6 +14,8 @@ const ProductsPage = () => {
 
   const { loading, onRefreshSession } = useRefreshSession();
   const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
+
+  const [load, setLoad] = useState(true);
 
   useEffect(() => {
     onRefreshSession();
@@ -27,7 +29,30 @@ const ProductsPage = () => {
     // eslint-disable-next-line
   }, [userId, loading]);
 
-  if (loading || layoutloading) {
+  async function allReady() {
+    // replace these with your real async checks
+    const checkAuth = () => Promise.resolve(loading);
+    const loadLayout = () => Promise.resolve(layoutloading);
+
+    // run them in parallel
+    const results = await Promise.all([checkAuth(), loadLayout()]);
+
+    // only true if every result is truthy
+    return results.every(Boolean);
+  }
+
+  useEffect(() => {
+    allReady().then((ok) => {
+      setLoad(false);
+      console.log('All checks passed, ready to render:', ok);
+      if (!ok) {
+        console.error('Not all checks passed, something went wrong.');
+      }
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  if (load) {
     return <LoadingScreen />;
   }
 
@@ -49,6 +74,7 @@ const ProductsPage = () => {
               specs={item.specs}
               deliveryPeriod={item.deliveryPeriod}
               description={item.description}
+              categories={item.categories}
               hover
             />
             {index !== products.length - 1 && (

@@ -33,6 +33,7 @@ const Explore = () => {
               discountPercent={item.discountPercent}
               specs={item.specs}
               rating={item.rating}
+              categories={item.categories}
             />
             {index !== products.length - 1 && (
               <hr className="bg-gray-200 w-full block md:hidden" />

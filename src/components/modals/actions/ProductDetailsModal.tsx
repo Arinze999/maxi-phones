@@ -102,10 +102,12 @@ const ProductDetailsModal = () => {
         </p>
         <p className="text-[14px] mb-2">
           Price: ₦{product?.price}{' '}
-          <span className="text-gray-500 line-through ml-3">
-            {' '}
-            ₦{product?.slashedPrice}
-          </span>
+          {product?.slashedPrice && (
+            <span className="text-gray-500 line-through ml-3">
+              {' '}
+              ₦{product?.slashedPrice}
+            </span>
+          )}{' '}
         </p>
         <p className="text-gray-500">
           Deivered between:{' '}
