@@ -63,7 +63,7 @@ const ProductDetailsModal = () => {
         <ChevronLeft12 />
         Go Back
       </button>
-      <h1 className="text-3xl font-bold mt-10 mb-4">{product?.title}</h1>
+      <h1 className="md:text-xl font-bold mt-10 mb-4">{product?.title}</h1>
       {product?.src && (
         <div className="w-full max-w-md mb-6 flex justify-center items-center">
           <Image
@@ -75,7 +75,7 @@ const ProductDetailsModal = () => {
           />
         </div>
       )}
-      <p className="mb-4">{product?.description}</p>
+      <p className="mb-4 text-[14px]">{product?.description}</p>
       <ol className="w-full max-w-[700px] list-disc list-inside mb-4">
         {product?.specs.map((spec, index) => (
           <li key={index} className="mb-2">
@@ -86,7 +86,7 @@ const ProductDetailsModal = () => {
       <div className="w-full max-w-[700px] flex flex-col gap-5">
         {product?.discountPercent && (
           <button className="text-mainWhite px-2 py-1 text-[12px] w-fit bg-mainOrange rounded">
-            -{product?.discountPercent}
+            {product?.discountPercent}
           </button>
         )}
         <p className="flex gap-1 items-center">

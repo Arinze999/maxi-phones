@@ -76,7 +76,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="min-h-[50rem] mt-[12rem] md:mt-[10rem] default-margin mb-[3rem] flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-4">{product?.title}</h1>
+      <h1 className="md:text-3xl text-xl font-bold my-4">{product?.title}</h1>
       {product?.src && (
         <div className="w-full max-w-md mb-6 flex justify-center items-center">
           <Image
@@ -88,7 +88,7 @@ export default function ProductDetailPage() {
           />
         </div>
       )}
-      <p className="mb-4">{product?.description}</p>
+      <p className="mb-4 text-sm md:text-[16px]">{product?.description}</p>
       <ol className="w-full max-w-[700px] list-disc list-inside mb-4">
         {product?.specs.map((spec, index) => (
           <li key={index} className="mb-2">

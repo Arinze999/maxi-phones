@@ -10,31 +10,39 @@ interface ModalProps {
 }
 
 export default function Modal({ children }: ModalProps) {
-  const modalContext = useContext(ModalContext);
+  const { showModal } = useContext(ModalContext) ?? {};
   const [mounted, setMounted] = useState(false);
 
-  // Wait until we're on the client
+  // Only render on client
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted || !modalContext?.showModal) return null;
+  // Disable background scrolling when modal is open
+  useEffect(() => {
+    if (!mounted) return;
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showModal, mounted]);
+
+  if (!mounted || !showModal) return null;
 
   const modalRoot = document.getElementById('modal-root');
   if (!modalRoot) return null;
 
   return createPortal(
-    <div
-      className="
-        fixed inset-0 z-50
-        flex items-center justify-center
-        bg-black/70
-        p-4 h-screen overflow-hidden border
-      "
-    >
- 
-        {children}
-
+    <div className="fixed inset-0 z-50 bg-black/70 overflow-y-auto">
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="max-h-full overflow-auto">
+          {children}
+        </div>
+      </div>
     </div>,
     modalRoot
   );
