@@ -92,6 +92,7 @@ const Footer = () => {
                 width={200}
                 height={150}
                 alt="qr-code"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </p>
           </li>
@@ -102,6 +103,7 @@ const Footer = () => {
                 width={10}
                 height={10}
                 alt="qr-code"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </p>
             <p>
@@ -110,6 +112,7 @@ const Footer = () => {
                 width={24}
                 height={24}
                 alt="qr-code"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </p>
             <p>
@@ -118,6 +121,7 @@ const Footer = () => {
                 width={24}
                 height={24}
                 alt="qr-code"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </p>
             <p>
@@ -126,6 +130,7 @@ const Footer = () => {
                 width={20}
                 height={20}
                 alt="qr-code"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </p>
           </li>

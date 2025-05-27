@@ -82,6 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           width={172}
           height={152}
           className="cursor-pointer w-full h-auto object-contain transform scale-[0.7]"
+          priority
         />
         <div
           className={`absolute cursor-pointer bottom-0 left-0 right-0 bg-mainBlack text-mainWhite text-[12px] font-[600] py-2 flex justify-center items-center gap-2 transition-transform duration-300 ${

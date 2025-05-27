@@ -21,9 +21,8 @@ const Explore = () => {
 
       <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
         {products.slice(0, 4).map((item, index) => (
-          <>
+          <React.Fragment key={index}>
             <ProductCard
-              key={index}
               src={item.src}
               title={item.title}
               price={item.price}
@@ -38,7 +37,7 @@ const Explore = () => {
             {index !== products.length - 1 && (
               <hr className="bg-gray-200 w-full block md:hidden" />
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
       <div className="flex justify-center items-center mt-10">

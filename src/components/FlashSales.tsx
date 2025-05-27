@@ -120,7 +120,7 @@ const FlashSales = () => {
           className="flex flex-col md:flex-row gap-5 items-center justify-start w-full md:overflow-x-auto scrollbar-hide mt-5"
         >
           {flashsales.map((item, index) => (
-            <>
+            <React.Fragment key={index}>
               <ProductCard
                 key={index}
                 src={item.src}
@@ -137,7 +137,7 @@ const FlashSales = () => {
               {index !== flashsales.length - 1 && (
                 <hr className="bg-gray-200 w-full block md:hidden" />
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
 

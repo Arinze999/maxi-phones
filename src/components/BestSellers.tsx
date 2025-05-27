@@ -17,9 +17,8 @@ const BestSellers = () => {
       </h2>
       <div className="flex flex-col md:flex-row flex-wrap gap-5 items-center justify-between w-full mt-10">
         {bestsellers.map((item, index) => (
-          <>
+          <React.Fragment key={index}>
             <ProductCard
-              key={index}
               src={item.src}
               title={item.title}
               price={item.price}
@@ -34,7 +33,7 @@ const BestSellers = () => {
             {index !== bestsellers.length - 1 && (
               <hr className="bg-gray-200 w-full block md:hidden" />
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>
