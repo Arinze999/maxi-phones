@@ -21,7 +21,7 @@ const LoginPage = () => {
     <div className="lg:min-h-[50rem] min-h-[35rem] mt-[12rem] md:mt-[10rem] mb-[3rem] default-margin flex flex-col justify-center items-center lg:flex-row gap-10">
       <div className="w-full hidden lg:block max-w-[705px]">
         <Image
-          src="/imgs/authPhone.png"
+          src="/imgs/authphone.png"
           width={705}
           height={681}
           alt="auth.bg"
