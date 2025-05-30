@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { useAppDisPatch, useAppSelector } from '@/redux/store';
 import { cartActions } from '@/redux/slices/cartSlice';
 import Swal from 'sweetalert2';
-import { createClient } from '../../utils/supabase/client';
+import { createClient } from '../../../utils/supabase/client';
 import { Product } from '@/db/products';
 
 interface UseAddToCartResult {

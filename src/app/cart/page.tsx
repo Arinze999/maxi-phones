@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useAppSelector, useAppDisPatch } from '@/redux/store';
 import { cartActions, CartItem } from '@/redux/slices/cartSlice';
-import { useRemoveFromCart } from '@/hooks/useRemoveFromCart';
+import { useRemoveFromCart } from '@/hooks/cart/useRemoveFromCart';
 import { createClient } from '../../../utils/supabase/client';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import { BaselineCancel } from '@/components/icons/BaselineCancel';
 import Link from 'next/link';
 import { ChevronLeft12 } from '@/components/icons/ChevronLeft';
-import { useClearCart } from '@/hooks/useClearCart';
+import { useClearCart } from '@/hooks/cart/useClearCart';
 import { TrashBinOutline } from '@/components/icons/TrashIcon';
 import { Product } from '@/db/products';
 
@@ -100,10 +100,11 @@ const CartPage: React.FC = () => {
           </p>
           <div className="flex justify-center mt-4">
             <Image
-              src="/svg/empty-cart.svg"
+              src="/gif/emptycart.gif"
               alt="Empty Cart"
-              width={200}
-              height={200}
+              width={150}
+              height={150}
+              unoptimized
             />
           </div>
         </div>
@@ -111,10 +112,18 @@ const CartPage: React.FC = () => {
         <table className="w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-100">
-              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Product</th>
-              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Price</th>
-              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Quantity</th>
-              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">Subtotal</th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">
+                Product
+              </th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">
+                Price
+              </th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">
+                Quantity
+              </th>
+              <th className="md:p-4 text-[14px] md:text-[16px] py-4 text-left">
+                Subtotal
+              </th>
             </tr>
           </thead>
           <tbody>

@@ -3,12 +3,12 @@
 import React from 'react';
 import UserDropdown from '../UserDropdown';
 import { useAppSelector } from '@/redux/store';
-import { HeartOutline } from '../icons/HeartOutline';
 import CartIndicator from '../CartIndicator';
 import { RoundSearch } from '../icons/RoundSearch';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { products } from '@/db/products';
+import WishListIndicator from '../WishListIndicator';
 
 const TopControls = () => {
   const session = useAppSelector((state) => state.auth.session);
@@ -139,7 +139,7 @@ const TopControls = () => {
         </div>
       </div>
       <div className="flex gap-5 justify-center items-center">
-        <HeartOutline />
+        <WishListIndicator />
         <CartIndicator />
         {user && <UserDropdown />}
       </div>

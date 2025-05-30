@@ -2,7 +2,7 @@ import StarIcon from '@/components/icons/StarIcon';
 import { products } from '@/db/products';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
-import { useAddToCart } from '@/hooks/useAddToCart';
+import { useAddToCart } from '@/hooks/cart/useAddToCart';
 import { useAppSelector } from '@/redux/store';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';

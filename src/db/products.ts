@@ -742,6 +742,64 @@ const baseProducts: Product[] = [
     rating: 4,
     categories: ['entertainment'],
   },
+  {
+    src: '/imgs/applewatchbasic.png',
+    title: 'Classic Apple Watch',
+    description:
+      'Apple Watch SE features a Retina display, S5 SiP, advanced fitness tracking and fall detection.',
+    deliveryPeriod: '1–3 days',
+    specs: [
+      '40 / 44 mm Retina LTPO OLED display',
+      'Apple S5 dual-core processor',
+      'Optical heart sensor & fall detection',
+      'Swimproof (50 m)',
+      'GPS + Cellular option',
+      'Up to 18 h battery life',
+    ],
+    price: '150000',
+    rating: 4,
+    categories: ['smart watch'],
+  },
+
+  {
+    src: '/imgs/applewatchseries7.png',
+    title: 'Apple Watch Series 7',
+    description:
+      'Series 7 with Always-On Retina display, faster charging, blood O₂ & ECG apps, and robust crack resistance.',
+    deliveryPeriod: '1–3 days',
+    specs: [
+      '41 / 45 mm Always-On Retina LTPO OLED display',
+      'S7 SiP with 64-bit dual-core processor',
+      'Blood Oxygen & ECG apps',
+      'IP6X dust-resistant, WR50 water-resistant',
+      'GPS + Cellular',
+      'Up to 18 h battery; 33% faster charging',
+    ],
+    slashedPrice: '280000',
+    discountPercent: '-10%',
+    price: '252000',
+    rating: 5,
+    categories: ['smart watch'],
+  },
+
+  {
+    src: '/imgs/applewatchultra2.png',
+    title: 'Apple Watch Ultra 2',
+    description:
+      'Ultra 2 with 49 mm bright Always-On Retina, dual-frequency GPS, 36 h battery, and rugged titanium case.',
+    deliveryPeriod: '2–4 days',
+    specs: [
+      '49 mm Always-On Retina LTPO OLED (2000 nits)',
+      'S8 SiP dual-core processor',
+      'Dual-frequency GPS & precision navigation',
+      'Depth gauge & low-water temperature sensor',
+      'WR100 water-resistant & MIL-STD-810H',
+      'Up to 36 h normal / 60 h low-power battery',
+    ],
+    price: '650000',
+    rating: 5,
+    categories: ['smart watch'],
+  },
 ];
 
 // Fisher–Yates shuffle
@@ -756,11 +814,9 @@ function shuffleArray<T>(arr: T[]): T[] {
 
 export const products = shuffleArray(baseProducts);
 
-
 export const getProductsByCategory = (category: Category): Product[] => {
   return products.filter((product) => product.categories.includes(category));
 };
-
 
 export const getProductByTitle = (title: string): Product | undefined => {
   return products.find(
@@ -773,12 +829,10 @@ export function getFlashSales(): Product[] {
   return shuffleArray(discounted).slice(0, 8);
 }
 
-
 /**
  * A static list of the top 4 highest‐rated products that have no discount.
  */
 export const bestsellers: Product[] = products
-  .filter(p => p.discountPercent == null)           // no discount
-  .sort((a, b) => b.rating - a.rating)              // highest rating first
-  .slice(0, 4);                                     // take top 4
-
+  .filter((p) => p.discountPercent == null) // no discount
+  .sort((a, b) => b.rating - a.rating) // highest rating first
+  .slice(0, 4); // take top 4

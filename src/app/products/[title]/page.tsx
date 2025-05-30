@@ -10,7 +10,7 @@ import { useAppSelector } from '@/redux/store';
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
 import LoadingScreen from '@/components/LoadingScreen';
-import { useAddToCart } from '@/hooks/useAddToCart';
+import { useAddToCart } from '@/hooks/cart/useAddToCart';
 
 export default function ProductDetailPage() {
   const session = useAppSelector((state) => state.auth.session);

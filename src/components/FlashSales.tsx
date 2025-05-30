@@ -70,7 +70,6 @@ const FlashSales = () => {
 
     // cleanup on unmount
     return () => clearInterval(timer);
-    // eslint-disable-next-line
   }, []);
 
   return (

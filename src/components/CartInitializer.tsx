@@ -1,7 +1,7 @@
 // src/components/CartInitializer.tsx
 'use client';
 
-import { useGetCartItems } from '@/hooks/useGetCartItems';
+import { useGetCartItems } from '@/hooks/cart/useGetCartItems';
 
 export default function CartInitializer() {
   const {} = useGetCartItems();

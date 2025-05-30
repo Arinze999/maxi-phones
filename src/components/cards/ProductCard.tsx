@@ -3,9 +3,13 @@ import HeartIcon from '../icons/HeartIcon';
 import EyeIcon from '../icons/EyeIcon2';
 import Image from 'next/image';
 import StarIcon from '../icons/StarIcon';
-import { useAddToCart } from '@/hooks/useAddToCart';
+import { useAddToCart } from '@/hooks/cart/useAddToCart';
 import Link from 'next/link';
 import { Product } from '@/db/products';
+import { useAddToWishList } from '@/hooks/wishlist/useAddToWishList';
+import { useAppSelector } from '@/redux/store';
+import { useRemoveFromWishList } from '@/hooks/wishlist/useRemoveFromWishList';
+import { CartOutline } from '../icons/CartOutline';
 
 interface ProductCardProps extends Product {
   // src: string;
@@ -30,11 +34,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
   hover,
   categories,
 }) => {
+  const wishItems = useAppSelector((s) => s.wishList.items);
+
   const [showCart, setShowCart] = useState(false);
 
   const { addToCart, loading } = useAddToCart(() => {
     console.log('Cart updated!');
   });
+
+  const { loading: wishing, addToWishList } = useAddToWishList();
+
+  const { loading: removing, removeFromWishList } = useRemoveFromWishList();
+
+  const isWish = wishItems.some((item) => item.title === title);
 
   const onAddToCart = () => {
     if (loading) return;
@@ -52,6 +64,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
     } as Product);
   };
 
+  const onAddToWishList = () => {
+    if (loading) return;
+    addToWishList({
+      src,
+      title,
+      price,
+      slashedPrice,
+      discountPercent,
+      rating,
+      description,
+      deliveryPeriod,
+      specs,
+      categories,
+    } as Product);
+  };
+
+  const onRemoveFromWishList = () => {
+    if (loading) return;
+    removeFromWishList(title);
+  };
+
   return (
     <div
       className={`w-[16rem] min-w-[16rem] h-[21rem] ${
@@ -63,11 +96,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
       onClick={() => setShowCart(true)}
     >
       <div className="bg-mainGray h-[72%] relative flex justify-center items-center overflow-hidden rounded-md">
-        <span className="bg-white cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-3 flex justify-center items-center">
-          <HeartIcon color="white" />
+        <span
+          onClick={isWish ? onRemoveFromWishList : onAddToWishList}
+          className={`
+            cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full absolute z-5 right-3 top-3 flex justify-center items-center
+            bg-mainWhite
+            ${isWish ? 'text-red-500' : 'text-mainWhite'}
+          `}
+        >
+          {wishing || removing ? (
+            <p className="text-mainBlack">..</p>
+          ) : (
+            <HeartIcon stroke={isWish ? '' : 'black'} />
+          )}
         </span>
         <Link href={`/products/${encodeURIComponent(title)}`}>
-          <span className="bg-white cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full absolute right-3 top-15 flex justify-center items-center">
+          <span className="bg-white cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full absolute z-5 right-3 top-15 flex justify-center items-center">
             <EyeIcon color="white" />
           </span>
         </Link>
@@ -93,7 +137,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onAddToCart();
           }}
         >
-          {loading ? 'Adding...' : 'Add To Cart'}
+          {loading ? 'Adding...' : 'Add To Cart'} <CartOutline />
         </div>
       </div>
       <div className="py-1 flex justify-center gap-2 flex-col">

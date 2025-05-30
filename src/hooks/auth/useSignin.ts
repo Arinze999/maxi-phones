@@ -7,7 +7,8 @@ import { createClient } from '../../../utils/supabase/client';
 import Swal from 'sweetalert2';
 import type { LoginDataType } from '@/models/auth/SignIn.model';
 import { LoginInitialValues } from '@/models/auth/SignIn.model';
-import { useClearCart } from '../useClearCart';
+import { useClearCart } from '../cart/useClearCart';
+import { FormikHelpers } from 'formik';
 
 export function useSignin() {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ export function useSignin() {
   const { clearCart } = useClearCart();
 
   const signinUser = useCallback(
-    async (values: LoginDataType, actions: any) => {
+    async (values: LoginDataType, actions: FormikHelpers<LoginDataType>) => {
       setLoading(true);
       try {
         const supabase = await createClient();

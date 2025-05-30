@@ -1,10 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
 import cartReducer from './slices/cartSlice';
+import wishListReducer from './slices/wishListSlice';
 
 const appReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
+  wishList: wishListReducer,
 });
 
 const rootReducer = (

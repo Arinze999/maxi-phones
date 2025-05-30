@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useAppDisPatch } from '@/redux/store';
 import { cartActions, CartItem,} from '@/redux/slices/cartSlice';
-import { createClient } from '../../utils/supabase/client';
+import { createClient } from '../../../utils/supabase/client';
 import { Product } from '@/db/products';
 
 interface UseGetCartItemsResult {

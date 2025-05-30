@@ -4,13 +4,14 @@ import { createClient } from '../../../utils/supabase/client';
 import type { SignupDataType } from '@/models/auth/SignUp.model';
 import { SignupInitialValues } from '@/models/auth/SignUp.model';
 import Swal from 'sweetalert2';
+import { FormikHelpers } from 'formik';
 
 export function useSignup() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const signupUser = useCallback(
-    async (values: SignupDataType, actions: any) => {
+    async (values: SignupDataType, actions: FormikHelpers<SignupDataType>) => {
       setLoading(true);
       try {
         const supabase = await createClient();

@@ -13,9 +13,13 @@ import {
   ContactUsDataType,
 } from '@/models/Contact.model';
 import ValidatingFormSubmitButton from '@/components/Button/ValidatingFormSubmitButton';
+import { FormikHelpers } from 'formik';
 
 const Contact = () => {
-  const handleSubmit = (values: ContactUsDataType, actions: any) => {
+  const handleSubmit = (
+    values: ContactUsDataType,
+    actions: FormikHelpers<ContactUsDataType>
+  ) => {
     console.log('contact form', values);
     alert(values.name);
     actions.resetForm({ values: contactUsInitialValues });
