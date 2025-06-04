@@ -49,6 +49,7 @@ export function useSignup() {
                 avatar_url: '', // placeholder for their profile image
                 cart_items: [], // start with an empty cart
                 wishlist: [], // start with an empty wishlist
+                billing_details: {},
               },
             ]);
 

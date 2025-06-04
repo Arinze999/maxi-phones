@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from 'react';
 import Image from 'next/image';
 import { useAppSelector, useAppDisPatch } from '@/redux/store';
 import { cartActions, CartItem } from '@/redux/slices/cartSlice';
@@ -17,14 +23,18 @@ import { ChevronLeft12 } from '@/components/icons/ChevronLeft';
 import { useClearCart } from '@/hooks/cart/useClearCart';
 import { TrashBinOutline } from '@/components/icons/TrashIcon';
 import { Product } from '@/db/products';
+import { useRouter } from 'next/navigation';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDisPatch();
   const session = useAppSelector((state) => state.auth.session);
   const userId = session?.user.id;
   const cartItems = useAppSelector((state) => state.cart.items) as CartItem[];
+  const cartTotal = useAppSelector((state) => state.cart.total);
   const [localItems, setLocalItems] = useState(cartItems);
   const [hovered, setHovered] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const { loading, onRefreshSession } = useRefreshSession();
   const { loading: layoutloading, getLayoutLoadingData } = useLayoutLoading();
@@ -32,6 +42,15 @@ const CartPage: React.FC = () => {
   const { removeFromCart, loading: removing } = useRemoveFromCart();
 
   const { loading: clearingCart, clearCart } = useClearCart();
+
+  const initialItemsRef = useRef<CartItem[]>([]);
+
+  useEffect(() => {
+    // Store a copy of the cart’s initial quantities for later comparison
+    initialItemsRef.current = cartItems.map((item) => ({ ...item }));
+    // Also make sure localItems matches Redux at the start
+    setLocalItems(cartItems);
+  }, []);
 
   useEffect(() => {
     onRefreshSession();
@@ -84,7 +103,21 @@ const CartPage: React.FC = () => {
       icon: 'success',
       confirmButtonText: 'Great',
     });
+    initialItemsRef.current = localItems.map((item) => ({ ...item }));
   }, [userId, localItems, dispatch]);
+
+  const hasChanges = useMemo(() => {
+    const initial = initialItemsRef.current;
+    // Different length means something was removed/added
+    // if (initial.length !== localItems.length) {
+    //   return true;
+    // }
+    // Check each item’s quantity against the initial snapshot
+    return localItems.some((currItem) => {
+      const match = initial.find((i) => i.title === currItem.title);
+      return !match || match.quantity !== currItem.quantity;
+    });
+  }, [localItems]);
 
   if (loading || layoutloading) {
     return <LoadingScreen />;
@@ -147,7 +180,12 @@ const CartPage: React.FC = () => {
                       <button
                         className="absolute md:-top-2 -top-5 md:-left-4 bg-white p-1 rounded-full text-red-400 shadow hover:bg-gray-100 cursor-pointer"
                         disabled={removing}
-                        onClick={() => removeFromCart(item.title)}
+                        onClick={() => {
+                          removeFromCart(item.title);
+                          initialItemsRef.current = localItems.map((item) => ({
+                            ...item,
+                          }));
+                        }}
                       >
                         <BaselineCancel />
                       </button>
@@ -182,6 +220,12 @@ const CartPage: React.FC = () => {
       )}
       {localItems.length > 0 && (
         <div className="mt-6 text-right flex flex-col md:flex-row justify-end gap-10 items-center">
+          {hasChanges && (
+            <p className="text-[12px] text-gray-500">
+              you have made some changes, do well to save these chnages before
+              leaving your cart
+            </p>
+          )}
           <button
             className="flex items-center  cursor-pointer gap-5 text-red-500 hover:text-red-700 border-red-500 border-2 rounded px-4 py-2 transition duration-200 ease-in-out hover:translate-y-[-5px]"
             onClick={clearCart}
@@ -193,7 +237,7 @@ const CartPage: React.FC = () => {
             text="Save Changes"
             onClick={handleUpdateCart}
             className="cursor-pointer disabled:color-gray-400 "
-            disabled={removing}
+            disabled={!hasChanges || removing}
           />
         </div>
       )}
@@ -205,6 +249,28 @@ const CartPage: React.FC = () => {
           <ChevronLeft12 />
           Back to Shop
         </Link>
+      </div>
+      <div className="my-4 flex justify-end">
+        <div className="border-[2px] border-mainBlack/40 w-full max-w-130 h-[20rem] p-4 rounded flex flex-col justify-between">
+          <h4 className="font-semibold">Cart Total</h4>
+          <p className="border-b-gray-400 border-b-[2px] pb-4 flex justify-between">
+            Sub total: <span className="text-gray-500">₦{cartTotal}</span>
+          </p>
+          <p className="border-b-gray-400 border-b-[2px] pb-4 flex justify-between">
+            Shipping: <span className="text-gray-500">Free</span>
+          </p>
+          <p className="flex justify-between">
+            Total <span className="text-gray-500">₦{cartTotal}</span>
+          </p>
+          <PrimaryButton
+            text="Proceed to checkout"
+            onClick={() => {
+              router.push('/cart/checkout');
+            }}
+            className="mx-auto"
+            disabled={userId ? false : true}
+          />
+        </div>
       </div>
     </div>
   );

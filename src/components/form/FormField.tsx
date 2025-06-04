@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useField,  FieldHookConfig } from 'formik';
+import { useField, FieldHookConfig } from 'formik';
 import EyeIcon from '../icons/EyeIcon';
 import CanceledEyeIcon from '../icons/CanceledEyeIcon';
 import clsx from 'clsx';
@@ -18,12 +18,74 @@ interface BaseFieldProps {
   readOnly?: boolean;
   /** Override wrapper styles */
   className?: string;
+  required?: boolean;
 }
 
 /**
  * TextInputField
  */
 export const TextInputField: React.FC<BaseFieldProps> = ({
+  label,
+  name,
+  placeholder,
+  lpiSrc,
+  readOnly = false,
+  className = '',
+  required,
+}) => {
+  const [field, meta] = useField<string>({ name, type: 'text' });
+  const hasError = Boolean(meta.touched && meta.error);
+
+  return (
+    <div className={`mb-6 w-full ${className}`}>
+      <label
+        htmlFor={name}
+        className="block text-sm text-borderGray mb-2 font-[700] font-inter"
+      >
+        {label}
+        {required && (
+          <span className="ml-1 text-red-500" aria-hidden="true">
+            *
+          </span>
+        )}
+      </label>
+
+      <div className="relative">
+        {lpiSrc && (
+          <img
+            src={lpiSrc}
+            alt="icon"
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+          />
+        )}
+
+        <input
+          id={name}
+          {...field}
+          placeholder={placeholder}
+          readOnly={readOnly}
+          className={`
+            block w-full
+            border-none bg-borderGray/10 ${
+              hasError ? 'border-red-500' : 'border-borderGray'
+            }
+            rounded-md 
+            py-3
+            ${lpiSrc ? 'pl-10' : 'pl-3'} pr-3
+            focus:outline-none focus:ring-2 focus:ring-mainBlue
+          `}
+        />
+      </div>
+
+      {hasError && <p className="mt-1 text-sm text-red-600">{meta.error}</p>}
+    </div>
+  );
+};
+
+/**
+ * TextInputField
+ */
+export const TextInputField2: React.FC<BaseFieldProps> = ({
   label,
   name,
   placeholder,
@@ -195,7 +257,7 @@ export const TextAreaInputField: React.FC<BaseFieldProps> = ({
     <div className={clsx(className, 'mb-6 w-full')}>
       <label
         htmlFor={name}
-        className="block text-sm font-semibold text-gray-700 mb-2"
+        className="block text-sm font-semibold text-borderGray/10 mb-2"
       >
         {label}
       </label>
@@ -214,7 +276,7 @@ export const TextAreaInputField: React.FC<BaseFieldProps> = ({
           readOnly={readOnly}
           rows={5}
           className={clsx(
-            'block w-full rounded-md py-3 border focus:outline-none focus:ring-2 focus:ring-mainBlue resize-none',
+            'block w-full rounded-md py-3 bg-borderGray/10 focus:outline-none focus:ring-2 focus:ring-mainBlue resize-none',
             hasError ? 'border-red-500' : 'border-gray-300',
             lpiSrc ? 'pl-10' : 'pl-3',
             'pr-3'

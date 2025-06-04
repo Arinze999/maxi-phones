@@ -17,7 +17,7 @@ const PrimaryButton: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`${className} flex items-center gap-3 bg-mainOrange text-mainWhite py-3 px-7 rounded text-[14px] transition duration-200 ease-in-out hover:translate-y-[-5px] cursor-pointer disabled:bg-gray-400`}
+      className={`${className} flex items-center gap-3 bg-mainOrange text-mainWhite py-3 px-7 rounded text-[14px] transition duration-200 ease-in-out hover:translate-y-[-5px] cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed`}
       onClick={onClick}
       disabled={disabled}
     >

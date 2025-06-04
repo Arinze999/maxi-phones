@@ -2,21 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '@/db/products';
 
 /**
- * Product shape matching flashsalesData
- */
-// export interface Product {
-//   src: string;
-//   title: string;
-//   slashedPrice?: string;
-//   discountPercent?: string;
-//   price: string;
-//   rating: number;
-//   specs: string[];
-//   deliveryPeriod: string;
-//   description:string;
-// }
-
-/**
  * CartItem extends Product with quantity
  */
 export interface CartItem extends Product {
@@ -25,10 +10,12 @@ export interface CartItem extends Product {
 
 interface CartState {
   items: CartItem[];
+  total: number;
 }
 
 const initialState: CartState = {
   items: [],
+  total: 0,
 };
 
 const cartSlice = createSlice({
@@ -50,6 +37,11 @@ const cartSlice = createSlice({
       } else {
         state.items.push({ ...product, quantity });
       }
+      // Recalculate total
+      state.total = state.items.reduce(
+        (sum, item) => sum + parseFloat(item.price) * item.quantity,
+        0
+      );
     },
 
     /**
@@ -58,6 +50,11 @@ const cartSlice = createSlice({
      */
     removeFromCart(state, action: PayloadAction<string>) {
       state.items = state.items.filter((item) => item.title !== action.payload);
+      // Recalculate total
+      state.total = state.items.reduce(
+        (sum, item) => sum + parseFloat(item.price) * item.quantity,
+        0
+      );
     },
 
     /**
@@ -65,6 +62,7 @@ const cartSlice = createSlice({
      */
     clearCart(state) {
       state.items = [];
+      state.total = 0;
     },
   },
 });
