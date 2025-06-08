@@ -13,10 +13,14 @@ interface UseClearCartResult {
 
 /**
  * Hook to clear the entire cart via Redux and persist on Supabase for signed-in users.
- * Also clears sessionStorage for guest users, with a confirmation prompt.
+ * Also clears sessionStorage for guest users.
  * @param onSuccess Optional callback to run after successful clear.
+ * @param confirm If true, uses SweetAlert for confirm/success/error. If false, runs silently.
  */
-export function useClearCart(onSuccess?: () => void): UseClearCartResult {
+export function useClearCart(
+  onSuccess?: () => void,
+  confirm: boolean = true
+): UseClearCartResult {
   const dispatch = useAppDisPatch();
   const session = useAppSelector((state) => state.auth.session);
   const isUser = Boolean(session);
@@ -25,25 +29,26 @@ export function useClearCart(onSuccess?: () => void): UseClearCartResult {
   const clearCart = useCallback(async () => {
     setLoading(true);
     try {
-      // 1) Ask for confirmation
-      const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: 'This will remove all items from your cart.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, clear it',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: '#d33',
-        reverseButtons: true,
-      });
+      // 1) Show confirmation only if confirm === true
+      if (confirm) {
+        const result = await Swal.fire({
+          title: 'Are you sure?',
+          text: 'This will remove all items from your cart.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, clear it',
+          cancelButtonText: 'Cancel',
+          confirmButtonColor: '#d33',
+          reverseButtons: true,
+        });
 
-      if (!result.isConfirmed) {
-        // User cancelled
-        setLoading(false);
-        return;
+        if (!result.isConfirmed) {
+          setLoading(false);
+          return;
+        }
       }
 
-      // 2) Proceed to clear
+      // 2) Clear Supabase or sessionStorage
       if (isUser) {
         const supabase = await createClient();
         const userId = session!.user.id;
@@ -55,37 +60,49 @@ export function useClearCart(onSuccess?: () => void): UseClearCartResult {
 
         if (error) {
           console.error('Failed to clear cart on Supabase:', error);
-          throw error;
+          if (confirm) {
+            await Swal.fire({
+              title: 'Clear Failed',
+              text: 'Could not clear the cart. Please try again.',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
+          return;
         }
       } else {
-        // Guest user: just remove from sessionStorage
         sessionStorage.removeItem('cartItems');
       }
 
       // 3) Redux update
       dispatch(cartActions.clearCart());
 
-      await Swal.fire({
-        title: 'Cart Cleared',
-        text: 'All items have been removed from your cart.',
-        icon: 'success',
-        confirmButtonText: 'Continue',
-        confirmButtonColor: '#db4444',
-      });
+      // 4) Show success only if confirm === true
+      if (confirm) {
+        await Swal.fire({
+          title: 'Cart Cleared',
+          text: 'All items have been removed from your cart.',
+          icon: 'success',
+          confirmButtonText: 'Continue',
+          confirmButtonColor: '#db4444',
+        });
+      }
 
       onSuccess?.();
     } catch (error) {
       console.error('Clear cart failed', error);
-      await Swal.fire({
-        title: 'Clear Failed',
-        text: 'Could not clear the cart. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+      if (confirm) {
+        await Swal.fire({
+          title: 'Clear Failed',
+          text: 'An unexpected error occurred.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
     } finally {
       setLoading(false);
     }
-  }, [dispatch, isUser, session, onSuccess]);
+  }, [dispatch, isUser, session, onSuccess, confirm]);
 
   return { clearCart, loading };
 }

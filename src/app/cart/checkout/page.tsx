@@ -17,6 +17,12 @@ import { useCreateBillingDetails } from '@/hooks/others/useCreateBillingDetails'
 import { useRefreshSession } from '@/hooks/ui-control/useRefreshSession';
 import useLayoutLoading from '@/hooks/ui-control/useLayoutLoading';
 import { FadeLoader } from 'react-spinners';
+import { useSaveOrder } from '@/hooks/others/useSaveOrder';
+import { v4 as uuidv4 } from 'uuid';
+import Link from 'next/link';
+import Script from 'next/script';
+import { payWithPaystack } from '../../../../utils/paystack';
+import Swal from 'sweetalert2';
 
 const CheckoutPage = () => {
   const { loading, onRefreshSession } = useRefreshSession();
@@ -28,6 +34,8 @@ const CheckoutPage = () => {
 
   const { createBillingDetails, loading: savingDetails } =
     useCreateBillingDetails();
+
+  const { loading: saving, saveOrder } = useSaveOrder();
 
   const [load, setLoad] = useState(true);
 
@@ -89,8 +97,67 @@ const CheckoutPage = () => {
     // alert(JSON.stringify(values));
   };
 
+  const placeOrder = async () => {
+    if (
+      storedDetails &&
+      typeof storedDetails === 'object' &&
+      Object.keys(storedDetails).length === 0
+    ) {
+      await Swal.fire({
+        title: 'Blocked',
+        text: 'Provide your billing details',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
+    if (paymentMethod === 'cod') {
+      const now = new Date();
+
+      const order = {
+        id: uuidv4(),
+        cart: cartItems,
+        date: now.toISOString().split('T')[0], // e.g., "2025-06-07"
+        time: now.toTimeString().split(' ')[0].slice(0, 5), // e.g., "14:35"
+        total: cartTotal,
+        status: 'pending' as const,
+      };
+
+      await saveOrder(userId, order);
+    } else if (paymentMethod === 'bank') {
+      const now = new Date();
+
+      const order = {
+        id: uuidv4(),
+        cart: cartItems,
+        date: now.toISOString().split('T')[0],
+        time: now.toTimeString().split(' ')[0].slice(0, 5),
+        total: cartTotal,
+        status: 'successful' as const,
+      };
+
+      payWithPaystack({
+        email: storedDetails.email,
+        amount: cartTotal,
+        onSuccess: async (response) => {
+          console.log('Payment success:', response);
+          await saveOrder(userId, order);
+        },
+        onClose: () => {
+          console.log('Payment closed by user');
+        },
+      });
+    }
+  };
+
   return (
     <div className="min-h-[50rem] mt-[12rem] md:mt-[10rem] default-margin mb-[3rem]">
+      <Script
+        src="https://js.paystack.co/v1/inline.js"
+        strategy="lazyOnload"
+        defer
+      />
+
       <h3 className="text-xl font-semibold mb-5">Billing Details</h3>
       <div className="w-full flex flex-col md:flex-row justify-between">
         <div className="w-full md:w-[50%] max-w-[600px]">
@@ -116,12 +183,15 @@ const CheckoutPage = () => {
               Submit & Save
             </ValidatingFormSubmitButton>
             <small className="text-[12px] text-gray-500">
-              will be saved for future orders, to make checkout faster
+              saved for future orders, to make checkout faster
             </small>
           </FormComponent>
         </div>
         {load ? (
-          <FadeLoader />
+          <div className="justify-center items-center px-auto">
+            {' '}
+            <FadeLoader color="#db4444" />
+          </div>
         ) : (
           <div className="w-full md:w-[50%] max-w-[500px]">
             {cartItems.map((item) => (
@@ -222,11 +292,38 @@ const CheckoutPage = () => {
                 </label>
               </div>
             </div>
-            <PrimaryButton
-              text="Place Order"
-              onClick={() => {}}
-              className="my-4"
-            />
+            <form onSubmit={(e) => e.preventDefault()}>
+              <PrimaryButton
+                text="Place Order"
+                onClick={placeOrder}
+                className="my-4"
+                disabled={!paymentMethod || saving || cartItems.length === 0}
+                loading={saving}
+              />
+            </form>
+
+            <p className="text-sm">
+              Head to the{' '}
+              <Link
+                href="/orders"
+                className="text-semibold underline text-blue-600"
+              >
+                Orders Page
+              </Link>{' '}
+              to confirm or cancel your order, orders made using bank method are
+              successful by default, for Cash onDelivery, you need to confirm
+              this in the Orders page.
+            </p>
+            <p className="mt-4">
+              {' '}
+              <span className="italic text-mainOrange mb-6 text-sm">
+                "Thanks for Testing my App"
+              </span>
+              <br />
+              <span className="font-semibold">
+                Arinze: <span>Developer</span>
+              </span>
+            </p>
           </div>
         )}
       </div>

@@ -46,10 +46,13 @@ export function useSignup() {
             .insert([
               {
                 id: userId,
-                avatar_url: '', // placeholder for their profile image
-                cart_items: [], // start with an empty cart
-                wishlist: [], // start with an empty wishlist
+                avatar_url: '',
+                cart_items: [],
+                wishlist: [],
                 billing_details: {},
+                orders: [],
+                cancellations: [],
+                account: [],
               },
             ]);
 

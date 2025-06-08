@@ -4,6 +4,7 @@ import { useEffect, useRef, MouseEvent } from 'react';
 import Link from 'next/link';
 import { useAppSelector } from '@/redux/store';
 import { useLogout } from '@/hooks/auth/useLogout';
+import { LoadingTwotoneLoop } from '../icons/LoadingLoop';
 
 const Nav = () => {
   // grab the session from the auth slice
@@ -60,7 +61,7 @@ const Nav = () => {
                 className="flex items-center px-4 py-2 cursor-pointer"
               >
                 <span className="text-[16px] hover:text-myPurple">
-                  {loading ? '.....' : item.title}
+                  {loading ? <LoadingTwotoneLoop /> : item.title}
                 </span>
               </div>
             )}

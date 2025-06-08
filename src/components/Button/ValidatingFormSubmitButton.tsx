@@ -2,6 +2,7 @@
 
 import { useFormikContext } from 'formik';
 import React, { useEffect } from 'react';
+import { LoadingTwotoneLoop } from '../icons/LoadingLoop';
 
 interface IValidatingFormSubmitButton {
   loading?: boolean;
@@ -29,7 +30,7 @@ const ValidatingFormSubmitButton: React.FC<IValidatingFormSubmitButton> = ({
   const isDisabled = alwaysActive ? false : !(isValid && dirty);
 
   const baseStyles = `
-    py-2 px-4 rounded-md text-white font-medium transition cursor-pointer disabled:cursor-not-allowed
+    py-2 px-4 rounded-md text-white font-medium transition cursor-pointer disabled:cursor-not-allowed flex justify-center items-center gap-3
   `;
 
   const enabledStyles = `
@@ -51,7 +52,11 @@ const ValidatingFormSubmitButton: React.FC<IValidatingFormSubmitButton> = ({
       `}
     >
       {children}
-      {loading && '...'}
+      {loading && (
+        <span className="w-4 h-4 text-mainWhite">
+          <LoadingTwotoneLoop />
+        </span>
+      )}
     </button>
   );
 };

@@ -7,10 +7,7 @@ import {
   AuthTextInputField,
   AuthPasswordInputField,
 } from '@/components/form/FormField';
-import {
-  LoginInitialValues,
-  LoginSchema,
-} from '@/models/auth/SignIn.model';
+import { LoginInitialValues, LoginSchema } from '@/models/auth/SignIn.model';
 import ValidatingFormSubmitButton from '@/components/Button/ValidatingFormSubmitButton';
 import { useSignin } from '@/hooks/auth/useSignin';
 
@@ -37,11 +34,7 @@ const LoginPage = () => {
           initialValues={LoginInitialValues}
           onSubmit={signinUser}
         >
-          <AuthTextInputField
-            name="identifier"
-            label=""
-            placeholder="Email or Phone Number"
-          />
+          <AuthTextInputField name="identifier" label="" placeholder="Email" />
           <AuthPasswordInputField
             name="password"
             label=""

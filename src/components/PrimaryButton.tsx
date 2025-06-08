@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { LoadingTwotoneLoop } from './icons/LoadingLoop';
 
 interface ButtonProps {
   text: string;
@@ -6,6 +7,7 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   icon?: ReactNode;
+  loading?: boolean;
 }
 
 const PrimaryButton: React.FC<ButtonProps> = ({
@@ -14,6 +16,7 @@ const PrimaryButton: React.FC<ButtonProps> = ({
   disabled,
   className,
   icon,
+  loading,
 }) => {
   return (
     <button
@@ -21,7 +24,12 @@ const PrimaryButton: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {text} {icon}
+      {text} {icon}{' '}
+      {loading && (
+        <span className="w-4 h-4 text-mainWhite">
+          <LoadingTwotoneLoop />
+        </span>
+      )}
     </button>
   );
 };

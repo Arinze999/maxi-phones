@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 const phoneRegex = /^\+?\d{10,15}$/; // adjust to your locale
 
 export const SignupSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
+  // name: Yup.string().required('Name is required'),
   identifier: Yup.string()
     .required('Email or phone number is required')
     .test(
@@ -24,7 +24,7 @@ export const SignupSchema = Yup.object().shape({
 export type SignupDataType = Yup.InferType<typeof SignupSchema>;
 
 export const SignupInitialValues: SignupDataType = {
-  name: '',
+  // name: '',
   identifier: '',
   password: '',
 };

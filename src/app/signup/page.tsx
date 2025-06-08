@@ -43,11 +43,11 @@ const SignupPage = () => {
           initialValues={SignupInitialValues}
           onSubmit={signupUser}
         >
-          <AuthTextInputField name="name" label="" placeholder="Name" />
+          {/* <AuthTextInputField name="name" label="" placeholder="Name" /> */}
           <AuthTextInputField
             name="identifier"
             label=""
-            placeholder="Email or Phone Number"
+            placeholder="Email"
           />
           <AuthPasswordInputField
             name="password"

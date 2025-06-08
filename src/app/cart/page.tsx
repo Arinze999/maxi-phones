@@ -24,6 +24,7 @@ import { useClearCart } from '@/hooks/cart/useClearCart';
 import { TrashBinOutline } from '@/components/icons/TrashIcon';
 import { Product } from '@/db/products';
 import { useRouter } from 'next/navigation';
+import { LoadingTwotoneLoop } from '@/components/icons/LoadingLoop';
 
 const CartPage: React.FC = () => {
   const dispatch = useAppDisPatch();
@@ -41,7 +42,9 @@ const CartPage: React.FC = () => {
 
   const { removeFromCart, loading: removing } = useRemoveFromCart();
 
-  const { loading: clearingCart, clearCart } = useClearCart();
+  const { loading: clearingCart, clearCart } = useClearCart(() => console.log('Cart cleared'), true);
+
+  const [saving, setSaving] = useState(false);
 
   const initialItemsRef = useRef<CartItem[]>([]);
 
@@ -50,7 +53,7 @@ const CartPage: React.FC = () => {
     initialItemsRef.current = cartItems.map((item) => ({ ...item }));
     // Also make sure localItems matches Redux at the start
     setLocalItems(cartItems);
-  }, []);
+  }, [cartItems]);
 
   useEffect(() => {
     onRefreshSession();
@@ -77,6 +80,7 @@ const CartPage: React.FC = () => {
   }, []);
 
   const handleUpdateCart = useCallback(async () => {
+    setSaving(true);
     // persist changes
     if (userId) {
       const supabase = await createClient();
@@ -104,6 +108,7 @@ const CartPage: React.FC = () => {
       confirmButtonText: 'Great',
     });
     initialItemsRef.current = localItems.map((item) => ({ ...item }));
+    setSaving(false);
   }, [userId, localItems, dispatch]);
 
   const hasChanges = useMemo(() => {
@@ -231,13 +236,15 @@ const CartPage: React.FC = () => {
             onClick={clearCart}
             disabled={clearingCart}
           >
-            <TrashBinOutline /> <span>Clear Cart</span>
+            {clearingCart ? <LoadingTwotoneLoop /> : <TrashBinOutline />}{' '}
+            <span>Clear Cart</span>
           </button>
           <PrimaryButton
             text="Save Changes"
             onClick={handleUpdateCart}
             className="cursor-pointer disabled:color-gray-400 "
             disabled={!hasChanges || removing}
+            loading={saving}
           />
         </div>
       )}
@@ -265,10 +272,19 @@ const CartPage: React.FC = () => {
           <PrimaryButton
             text="Proceed to checkout"
             onClick={() => {
-              router.push('/cart/checkout');
+              if (userId) {
+                router.push('/cart/checkout');
+              } else {
+                Swal.fire({
+                  title: 'Please Sign In',
+                  text: 'You must be signed in to procced',
+                  icon: 'error',
+                  confirmButtonText: 'OK',
+                });
+              }
             }}
             className="mx-auto"
-            disabled={userId ? false : true}
+            disabled={cartTotal ? false : true}
           />
         </div>
       </div>
