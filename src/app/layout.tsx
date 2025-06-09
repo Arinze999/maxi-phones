@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: 'MaxiPhones',
     images: [
       {
-        url: 'https://maxi-phones.vercel.app/imgs/maxiphones.png', // Replace with your actual image URL
+        url: 'https://images.fastcompany.com/image/upload/f_webp,q_auto,c_fit/wp-cms-2/2024/09/p-1-91191381-does-my-iphone-support-ios-18.jpg', // Replace with your actual image URL
         width: 1200,
         height: 630,
         alt: 'MaxiPhones - Promo Sale Banner',
