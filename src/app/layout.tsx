@@ -38,11 +38,11 @@ export const metadata: Metadata = {
     title: 'MaxiPhones - Top Tech Deals Online',
     description:
       'Shop the best smartphones and gadgets at MaxiPhones. Enjoy exclusive discounts, fast delivery, and the latest devices at unbeatable prices.',
-    url: 'https://www.maxiphones.com',
+    url: 'https://maxi-phones.vercel.app/',
     siteName: 'MaxiPhones',
     images: [
       {
-        url: 'https://drive.google.com/file/d/172uHwYhPgqYBfkijMDKgXZ1YAFxGo6vE/view?usp=sharing', // Replace with your actual image URL
+        url: 'https://maxi-phones.vercel.app/maxiphones.png', // Replace with your actual image URL
         width: 1200,
         height: 630,
         alt: 'MaxiPhones - Promo Sale Banner',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: 'MaxiPhones - Top Tech Deals Online',
     description:
       'Your go-to gadget store for the latest smartphones and accessories. Big discounts and free express delivery await!',
-    images: ['https://drive.google.com/file/d/172uHwYhPgqYBfkijMDKgXZ1YAFxGo6vE/view?usp=sharing'], // Replace with actual image
+    images: ['https://maxi-phones.vercel.app/maxiphones.png'], // Replace with actual image
     creator: '@arinze_dev', // Optional: your brand's Twitter handle
   },
 
